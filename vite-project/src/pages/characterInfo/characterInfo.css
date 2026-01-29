@@ -1,0 +1,16 @@
+.characterInfo {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.characterInfo__link {
+  margin-top: 30px;
+  margin-left: 150px;
+  text-decoration: dashed;
+  color: black;
+  display: flex;
+  gap: 10px;
+}

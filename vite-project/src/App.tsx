@@ -1,10 +1,24 @@
+// import { Route, Routes } from 'react-router-dom';
+
+import { Layout } from '@/shared/components/layout';
+
 import './App.css';
-import { Header } from './shared/components/header/header';
+// import { CharacterInfo } from './pages/characterInfo';
 
 function App() {
   return (
     <>
-      <Header />
+      {/* <Routes>
+        <Route
+          path="/"
+          element={<Layout />}
+        />
+        <Route
+          path="/characterInfo"
+          element={<CharacterInfo />}
+        />
+      </Routes> */}
+      <Layout />
     </>
   );
 }
