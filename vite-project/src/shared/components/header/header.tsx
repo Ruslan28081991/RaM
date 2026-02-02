@@ -1,6 +1,4 @@
-import Light from '@/assets/images/Light.png';
-import Logo from '@/assets/images/logo.png';
-import RuLanguage from '@/assets/images/Ru.png';
+import { LightImg, LogoImg, RuImg } from '@/assets/images';
 
 import './header.css';
 
@@ -10,21 +8,21 @@ export const Header = () => {
       <div className="header__wrapper">
         <img
           className="header__wrapper-logo"
-          src={Logo}
+          src={LogoImg}
           alt="Logo"
         />
       </div>
       <div className="header__buttons">
         <button className="header__buttons-light">
           <img
-            src={Light}
-            alt="Light"
+            src={LightImg}
+            alt="Light theme icon"
           />
         </button>
         <button className="header__buttons-language">
           <img
-            src={RuLanguage}
-            alt="Language"
+            src={RuImg}
+            alt="Russian language icon"
           />
         </button>
       </div>

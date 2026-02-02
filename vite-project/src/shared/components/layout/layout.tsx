@@ -1,27 +1,16 @@
-import { Routes, Route } from 'react-router-dom';
-
-import { CharacterInfo } from '@/pages/characterInfo';
-import { CharactersList } from '@/pages/charactersList';
-
-import { Footer } from '../footer';
-import { Header } from '../header';
+import { Footer, Header } from '@/shared/components';
 
 import './layout.css';
 
-export const Layout = () => {
+interface ILayout {
+  children: React.ReactNode;
+}
+
+export const Layout = ({ children }: ILayout) => {
   return (
     <>
       <Header />
-      <Routes>
-        <Route
-          path="/"
-          element={<CharactersList />}
-        />
-        <Route
-          path="characterInfo"
-          element={<CharacterInfo />}
-        />
-      </Routes>
+      <main>{children}</main>
       <Footer />
     </>
   );

@@ -1,6 +1,6 @@
 import cn from 'classnames';
 
-import LoadingImg from '@/assets/images/loading.png';
+import { LoadingImg } from '@/assets/images';
 
 import './loading.css';
 

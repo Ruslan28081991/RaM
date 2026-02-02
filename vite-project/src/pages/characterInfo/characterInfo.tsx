@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
-import Back from '@/assets/images/arrow.png';
-import { Loading } from '@/shared/components/loading';
+import { ArrowImg } from '@/assets/images';
+import { Loading } from '@/shared/components';
 
 import './characterInfo.css';
 
@@ -14,7 +14,7 @@ export const CharacterInfo = () => {
       >
         <img
           className="characterInfo__link-image"
-          src={Back}
+          src={ArrowImg}
           alt="Back image"
         />
         GO BACK

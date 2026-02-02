@@ -1,25 +1,31 @@
-// import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
-import { Layout } from '@/shared/components/layout';
+import { CharacterInfo, CharactersList } from '@/pages';
+import { Layout } from '@/shared/components';
+import { APP_ROUTES } from '@/shared/constants';
 
 import './App.css';
-// import { CharacterInfo } from './pages/characterInfo';
 
 function App() {
   return (
-    <>
-      {/* <Routes>
-        <Route
-          path="/"
-          element={<Layout />}
-        />
-        <Route
-          path="/characterInfo"
-          element={<CharacterInfo />}
-        />
-      </Routes> */}
-      <Layout />
-    </>
+    <Routes>
+      <Route
+        path={APP_ROUTES.HOME}
+        element={
+          <Layout>
+            <CharactersList />
+          </Layout>
+        }
+      />
+      <Route
+        path={APP_ROUTES.CHARACTER_INFO}
+        element={
+          <Layout>
+            <CharacterInfo />
+          </Layout>
+        }
+      />
+    </Routes>
   );
 }
 

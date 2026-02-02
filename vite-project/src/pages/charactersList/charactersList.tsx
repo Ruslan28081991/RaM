@@ -1,21 +1,21 @@
-import Title from '@/assets/images/title.png';
-import { Loading } from '@/shared/components/loading';
+import { TitleImg } from '@/assets/images';
+import { Loading } from '@/shared/components';
 
 import './charactersList.css';
 
 export const CharactersList = () => {
   return (
-    <section className="charactersList">
+    <main className="charactersList">
       <img
         className="charactersList__image"
-        src={Title}
-        alt="Title image"
+        src={TitleImg}
+        alt="Title 'Rick & Morty'"
       />
 
       <Loading
         size="large"
         text="Loading characters..."
       />
-    </section>
+    </main>
   );
 };

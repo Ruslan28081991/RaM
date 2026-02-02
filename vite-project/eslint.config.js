@@ -4,7 +4,8 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import prettierConfig from 'eslint-config-prettier';
-import importPlugin from 'eslint-plugin-import';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import unusedImports from 'eslint-plugin-unused-imports';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
@@ -22,76 +23,20 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    plugins: {
+      'simple-import-sort': simpleImportSort,
+      'unused-imports': unusedImports,
+    },
     rules: {
       'no-console': 'warn',
       eqeqeq: 'error',
-    },
-    plugins: {
-      import: importPlugin,
-    },
-    rules: {
-      'import/order': [
-        'error',
-        {
-          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'type'],
-
-          pathGroups: [
-            {
-              pattern: 'react',
-              group: 'external',
-              position: 'before',
-            },
-            {
-              pattern: 'react-dom/**',
-              group: 'external',
-              position: 'after',
-            },
-            {
-              pattern: 'react-router-dom',
-              group: 'external',
-              position: 'after',
-            },
-            {
-              pattern: '@/**',
-              group: 'internal',
-              position: 'after',
-            },
-            {
-              pattern: '**/*.{png,jpg,jpeg,svg,webp,gif}',
-              group: 'index',
-              position: 'after',
-            },
-            {
-              pattern: '**/*.{css,scss}',
-              group: 'index',
-              position: 'after',
-            },
-          ],
-          warnOnUnassignedImports: true,
-          pathGroupsExcludedImportTypes: ['react'],
-          'newlines-between': 'always',
-          alphabetize: {
-            order: 'asc',
-            caseInsensitive: true,
-          },
-        },
-      ],
-    },
-    plugins: ['simple-import-sort'],
-    rules: {
-      'simple-import-sort/imports': 'error',
-      'simple-import-sort/exports': 'error',
-      'import/first': 'error',
-      'import/newline-after-import': 'error',
-    },
-    //
-    rules: {
       'simple-import-sort/imports': [
         'error',
         {
-          groups: [['^react', '^@?\\w'], ['^@/'], ['^\\u0000'], ['^\\.']],
+          groups: [['^react$'], ['^react-'], ['^@?\\w'], ['^@/'], ['^\\.'], ['^.+\\.css$']],
         },
       ],
+      'simple-import-sort/exports': 'error',
     },
   },
 ]);
