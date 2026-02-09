@@ -2,7 +2,7 @@ import { type ChangeEvent, type ComponentType, type SVGProps } from 'react';
 
 import cn from 'classnames';
 
-import { CloseIcon, SearchIcon } from '@/assets/icons';
+import { CloseIcon } from '@/assets/icons';
 
 import './input.css';
 
@@ -32,11 +32,11 @@ export const Input = ({
   };
 
   return (
-    <div className={cn(`input__${view}`)}>
-      {IconComponent && <SearchIcon className="input__icon-search" />}
+    <div className={cn(`input_${view}`)}>
+      {IconComponent && <IconComponent className="input__icon" />}
 
       <input
-        className={cn('inputComponent', `input__${size}`)}
+        className={cn('inputComponent', `input_${size}`)}
         type="text"
         placeholder={placeholder}
         value={value}

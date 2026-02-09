@@ -1,4 +1,4 @@
-.input__bordered {
+.input_bordered {
   max-width: 230px;
   padding: 16px 8px;
   border: 1px solid #393939;
@@ -8,7 +8,7 @@
   gap: 10px;
 }
 
-.input__underlined:hover {
+.input_underlined:hover {
   border-bottom: 1px solid #393939;
 }
 
@@ -22,17 +22,17 @@
   text-overflow: ellipsis;
 }
 
-.input__medium {
+.input_medium {
   width: 178px;
   font-size: 16px;
 }
 
-.input__small {
+.input_small {
   font-size: 14px;
   width: 115px;
 }
 
-.input__icon-search {
+.input__icon {
   margin-left: 5px;
   flex-shrink: 0;
 }
