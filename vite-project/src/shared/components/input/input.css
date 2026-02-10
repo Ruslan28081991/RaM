@@ -1,0 +1,44 @@
+.input_bordered {
+  max-width: 230px;
+  padding: 16px 8px;
+  border: 1px solid #393939;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.input_underlined:hover {
+  border-bottom: 1px solid #393939;
+}
+
+.inputComponent {
+  flex-grow: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.input_medium {
+  width: 178px;
+  font-size: 16px;
+}
+
+.input_small {
+  font-size: 14px;
+  width: 115px;
+}
+
+.input__icon {
+  margin-left: 5px;
+  flex-shrink: 0;
+}
+
+.input__icon-close {
+  cursor: pointer;
+  margin-right: 5px;
+  flex-shrink: 0;
+}
