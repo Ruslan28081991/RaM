@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState, type ComponentType } from 'react';
+import { type ComponentType, useEffect, useRef, useState } from 'react';
+
 import cn from 'classnames';
 
 import { ArrowDownIcon, ArrowDownSmallIcon, ArrowUpIcon, ArrowUpSmallIcon } from '@/assets/icons';
@@ -87,7 +88,7 @@ export const Select = <T,>({
         )}
         <button
           className={cn('select__arrow', {
-            select__arrow_small: size == 'small',
+            select__arrow_small: size === 'small',
           })}
           aria-label="Toggle select"
         >
