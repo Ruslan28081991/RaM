@@ -8,10 +8,13 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "pretty": "prettier src/. --write"
+    "pretty": "prettier src/. --write",
+    "lint:styles": "stylelint \"src/**/*.{scss,css}\"",
+    "lint:styles:fix": "stylelint \"src/**/*.{scss,css}\" --fix"
   },
   "dependencies": {
     "classnames": "^2.5.1",
+    "normalize.css": "^8.0.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.13.0"
@@ -31,7 +34,13 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-unused-imports": "^4.3.0",
     "globals": "^16.5.0",
+    "postcss": "^8.5.6",
+    "postcss-scss": "^4.0.9",
     "prettier": "^3.8.1",
+    "sass": "^1.97.3",
+    "stylelint": "^17.2.0",
+    "stylelint-config-recess-order": "^7.6.1",
+    "stylelint-config-standard-scss": "^17.0.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4",

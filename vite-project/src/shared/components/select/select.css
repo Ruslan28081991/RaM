@@ -1,25 +1,26 @@
 .select {
   position: relative;
   display: inline-block;
-  font-family: 'Roboto', sans-serif;
+  font-family: Roboto, sans-serif;
 }
 
 .select__header {
   display: flex;
+  gap: 5px;
   align-items: center;
   justify-content: space-between;
-  gap: 5px;
   width: 240px;
-  height: 55px;
-  border: 1px solid #393939;
   padding: 0 10px;
-  border-radius: 6px;
+  color: #0009;
   background: #fff;
-  color: #00000099;
+
+  /* height: 55px; */
+  border: 1px solid #393939;
+  border-radius: 6px;
 }
 
 .select__header_small {
-  width: 100px;
+  width: 101px;
   height: 21px;
   padding: 2px 5px;
   font-size: 14px;
@@ -28,11 +29,11 @@
 .select__arrow,
 .select__arrow_small {
   display: flex;
-  justify-content: center;
   align-items: center;
-  border: none;
+  justify-content: center;
   cursor: pointer;
   background-color: #fff;
+  border: none;
 }
 
 .select__arrow_small {
@@ -44,24 +45,24 @@
   position: absolute;
   top: 100%;
   left: 0;
+  z-index: 1;
+  box-sizing: border-box;
   width: 100%;
+  max-height: 160px;
+  padding: 4px 0;
+  margin: 0;
+  overflow-y: auto;
   background-color: #fff;
   border: 1px solid #393939;
   border-radius: 6px;
-  padding: 4px 0;
-  margin: 0;
-  z-index: 1;
-  max-height: 160px;
-  overflow-y: auto;
-  box-sizing: border-box;
 }
 
 .select__item {
   display: flex;
-  align-items: center;
   gap: 4px;
+  align-items: center;
   padding: 10px 14px;
-  color: #00000099;
+  color: #0009;
 }
 
 .select__item_small {

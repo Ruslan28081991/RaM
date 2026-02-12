@@ -1,8 +1,8 @@
 .status {
-  margin-left: 5px;
   display: inline-block;
   width: 10px;
   height: 10px;
+  margin-left: 5px;
   border-radius: 50%;
 }
 
@@ -15,5 +15,5 @@
 }
 
 .orange {
-  background-color: #ff9900;
+  background-color: #f90;
 }

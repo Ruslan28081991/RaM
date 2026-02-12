@@ -1,0 +1,92 @@
+.characterCard {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  width: 520px;
+  height: 248px;
+  border: solid 1px #fff;
+  border-radius: 6px;
+  box-shadow: 1px 1px 4px 0 rgb(0 0 0 / 25%);
+}
+
+.characterCard:hover .characterCard__edit {
+  visibility: visible;
+  opacity: 1;
+}
+
+.characterCard__image {
+  width: 240px;
+  min-width: 240px;
+  height: 234px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.characterCard__info {
+  flex-shrink: 0;
+  width: 235px;
+}
+
+.characterCard__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  cursor: pointer;
+}
+
+.characterCard__edit {
+  visibility: hidden;
+  align-self: flex-end;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.characterCard__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 32px;
+}
+
+.characterCard__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 32px;
+  color: #000000de;
+  letter-spacing: 0.15px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.characterCard__list {
+  margin-top: 5px;
+  line-height: 21px;
+  letter-spacing: 0.25px;
+}
+
+.characterCard__item {
+  margin-bottom: 1px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #3f3f3f;
+}
+
+.characterCard__item-text {
+  width: 135px;
+  height: 21px;
+  margin: 0;
+  margin-bottom: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  font-weight: 400;
+  color: #0009;
+  white-space: nowrap;
+}
+
+.characterCard_edited .characterCard__item-text {
+  overflow: visible;
+  white-space: normal;
+}
