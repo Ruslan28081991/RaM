@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
 import cn from 'classnames';
@@ -26,30 +27,44 @@ export const CharacterCard = ({ image, name, gender, species, location, status }
   const [characterStatus, setCharacterStatus] = useState<TStatus>(status);
 
   const currentStatus = STATUS_OPTIONS.find((option) => option.value === characterStatus);
+  const trimmedName = characterName.trim();
+  const trimmerLocation = characterLocation.trim();
 
   const handleEditCard = () => {
     setIsEdit(true);
   };
 
   const handleEditSave = () => {
+    if (!trimmedName || !trimmerLocation) return notify();
+
     setIsEdit(false);
   };
 
   const handleEditCancel = () => {
+    if (!trimmedName || !trimmerLocation) return notify();
+    setCharacterName(name);
+    setCharacterLocation(location);
     setIsEdit(false);
   };
 
   const handleChangeName = (value: string) => {
-    if (value.trim()) setCharacterName(value);
+    setCharacterName(value);
   };
 
   const handleChangeLocation = (value: string) => {
-    if (value.trim()) setCharacterLocation(value);
+    setCharacterLocation(value);
   };
 
   const handleChangeStatus = (value: TStatus) => {
     setCharacterStatus(value);
   };
+
+  const notify = () =>
+    toast.error('Заполните поля', {
+      duration: 2000,
+      position: 'top-center',
+    });
+
   return (
     <div
       className={cn('characterCard', {

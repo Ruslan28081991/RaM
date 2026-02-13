@@ -4,12 +4,12 @@
   align-items: center;
   max-width: 230px;
   padding: 16px 8px;
-  border: 1px solid #393939;
+  border: 1px solid var(--color-black);
   border-radius: 8px;
 }
 
 .input_underlined {
-  border-bottom: 1px solid #393939;
+  border-bottom: 1px solid var(--color-black);
 }
 
 .inputComponent {
