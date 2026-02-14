@@ -1,13 +1,15 @@
 import { useState } from 'react';
 
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
 
 import cn from 'classnames';
 
 import { CloseIcon, ConfirmIcon, EditIcon } from '@/assets/icons';
-import { Input, Select, Status, type TStatus } from '@/shared/components';
-import { APP_ROUTES, STATUS_OPTIONS } from '@/shared/constants';
+import { type TStatus } from '@/shared/components';
+
+import { CharacterCardLocation } from './characterCardLocation';
+import { CharacterCardName } from './characterCardName';
+import { CharacterCardStatus } from './characterCardStatus';
 
 import './characterCard.css';
 
@@ -26,7 +28,6 @@ export const CharacterCard = ({ image, name, gender, species, location, status }
   const [characterLocation, setCharacterLocation] = useState(location);
   const [characterStatus, setCharacterStatus] = useState<TStatus>(status);
 
-  const currentStatus = STATUS_OPTIONS.find((option) => option.value === characterStatus);
   const trimmedName = characterName.trim();
   const trimmerLocation = characterLocation.trim();
 
@@ -45,18 +46,6 @@ export const CharacterCard = ({ image, name, gender, species, location, status }
     setCharacterName(name);
     setCharacterLocation(location);
     setIsEdit(false);
-  };
-
-  const handleChangeName = (value: string) => {
-    setCharacterName(value);
-  };
-
-  const handleChangeLocation = (value: string) => {
-    setCharacterLocation(value);
-  };
-
-  const handleChangeStatus = (value: TStatus) => {
-    setCharacterStatus(value);
   };
 
   const notify = () =>
@@ -79,21 +68,11 @@ export const CharacterCard = ({ image, name, gender, species, location, status }
 
       <div className="characterCard__info">
         <div className="characterCard__wrapper">
-          {isEdit ? (
-            <Input
-              size="medium"
-              view="underlined"
-              value={characterName}
-              onChange={handleChangeName}
-            />
-          ) : (
-            <Link
-              className="characterCard__name"
-              to={APP_ROUTES.CHARACTER_INFO}
-            >
-              {characterName}
-            </Link>
-          )}
+          <CharacterCardName
+            isEdit={isEdit}
+            characterName={characterName}
+            setCharacterName={setCharacterName}
+          />
           <div className="characterCard__actions">
             {isEdit ? (
               <>
@@ -125,38 +104,20 @@ export const CharacterCard = ({ image, name, gender, species, location, status }
 
           <dt className="characterCard__item">Location </dt>
           <dd className="characterCard__item-text">
-            {isEdit ? (
-              <Input
-                size="small"
-                value={characterLocation}
-                onChange={handleChangeLocation}
-              />
-            ) : (
-              <span>{characterLocation}</span>
-            )}
+            <CharacterCardLocation
+              isEdit={isEdit}
+              characterLocation={characterLocation}
+              setCharacterLocation={setCharacterLocation}
+            />
           </dd>
 
           <dt className="characterCard__item">Status </dt>
           <dd className="characterCard__item-text">
-            {isEdit ? (
-              <Select<TStatus>
-                options={STATUS_OPTIONS}
-                size="small"
-                value={characterStatus}
-                onChange={handleChangeStatus}
-                OptionComponent={({ option }) => (
-                  <>
-                    <span>{option.label}</span>
-                    <Status status={option?.value} />
-                  </>
-                )}
-              />
-            ) : (
-              <>
-                <span>{currentStatus?.label}</span>
-                <Status status={characterStatus} />
-              </>
-            )}
+            <CharacterCardStatus
+              isEdit={isEdit}
+              characterStatus={characterStatus}
+              setCharacterStatus={setCharacterStatus}
+            />
           </dd>
         </dl>
       </div>
