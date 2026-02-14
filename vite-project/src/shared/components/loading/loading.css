@@ -1,10 +1,10 @@
 .loading {
-  width: 475px;
-  height: 465px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  width: 475px;
+  height: 465px;
 }
 
 .loading__image {
@@ -31,6 +31,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
