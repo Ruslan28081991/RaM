@@ -1,29 +1,29 @@
 @font-face {
-  font-family: 'Roboto';
+  font-family: Roboto;
+  font-weight: 700;
   src: url('./Roboto-Bold.ttf') format('truetype');
-  font-weight: 700;
 }
 
 @font-face {
-  font-family: 'Roboto';
-  src: url('./Roboto-Medium.ttf') format('truetype');
+  font-family: Roboto;
   font-weight: 500;
+  src: url('./Roboto-Medium.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'Roboto';
+  font-family: Roboto;
+  font-weight: 400;
   src: url('./Roboto-Regular.ttf') format('truetype');
-  font-weight: 400;
 }
 
 @font-face {
-  font-family: 'Karla';
-  src: url('./Karla-Bold.ttf') format('truetype');
+  font-family: Karla;
   font-weight: 700;
+  src: url('./Karla-Bold.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'Karla';
-  src: url('./Karla-Regular.ttf') format('truetype');
+  font-family: Karla;
   font-weight: 400;
+  src: url('./Karla-Regular.ttf') format('truetype');
 }

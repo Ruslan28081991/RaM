@@ -22,9 +22,9 @@ const DefaultOptionComponent = <T,>({ option }: ISelectOptionComponent<T>) => {
 interface ISelect<T> {
   options: IOptions<T>[];
   value: T | null;
-  placeholder: string;
-  onChange: (value: T | null) => void;
+  onChange: (value: T) => void;
   OptionComponent: ComponentType<ISelectOptionComponent<T>>;
+  placeholder?: string;
   size?: 'medium' | 'small';
 }
 

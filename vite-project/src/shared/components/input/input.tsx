@@ -8,10 +8,10 @@ import './input.css';
 
 interface IInput {
   value: string;
-  placeholder: string;
-  view: 'bordered' | 'underlined';
   size: 'medium' | 'small';
   onChange: (newValue: string) => void;
+  placeholder?: string;
+  view?: 'bordered' | 'underlined';
   icon?: ComponentType<SVGProps<SVGSVGElement>>;
 }
 
