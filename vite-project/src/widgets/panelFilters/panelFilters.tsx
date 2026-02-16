@@ -7,14 +7,10 @@ import { GENDER_OPTIONS, SPECIES_OPTIONS, STATUS_OPTIONS } from '@/shared/consta
 import './panelFilters.css';
 
 export const PanelFilters = () => {
-  const [isFind, setIsFind] = useState('');
+  const [nameValue, setNameValue] = useState('');
   const [speciesValue, setSpeciesValue] = useState('');
   const [genderValue, setGenderValue] = useState('');
   const [statusValue, setStatusValue] = useState('');
-
-  const handleChangeFind = (newValue: string) => {
-    setIsFind(newValue);
-  };
 
   return (
     <div className="panel__filters">
@@ -22,27 +18,27 @@ export const PanelFilters = () => {
         size="medium"
         view="bordered"
         placeholder="Filter by name..."
-        value={isFind}
-        onChange={handleChangeFind}
+        value={nameValue}
+        onChange={setNameValue}
         icon={SearchIcon}
       />
       <Select
         placeholder="Species"
         options={SPECIES_OPTIONS}
         value={speciesValue}
-        onChange={(value) => setSpeciesValue(value)}
+        onChange={setSpeciesValue}
       />
       <Select
         placeholder="Gender"
         options={GENDER_OPTIONS}
         value={genderValue}
-        onChange={(value) => setGenderValue(value)}
+        onChange={setGenderValue}
       />
       <Select
         placeholder="Status"
         options={STATUS_OPTIONS}
         value={statusValue}
-        onChange={(value) => setStatusValue(value)}
+        onChange={setStatusValue}
       />
     </div>
   );
