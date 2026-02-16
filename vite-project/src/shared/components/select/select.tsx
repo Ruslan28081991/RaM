@@ -23,7 +23,7 @@ interface ISelect<T> {
   options: IOptions<T>[];
   value: T | null;
   onChange: (value: T) => void;
-  OptionComponent: ComponentType<ISelectOptionComponent<T>>;
+  OptionComponent?: ComponentType<ISelectOptionComponent<T>>;
   placeholder?: string;
   size?: 'medium' | 'small';
 }
