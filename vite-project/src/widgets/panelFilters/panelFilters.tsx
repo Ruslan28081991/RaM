@@ -8,9 +8,9 @@ import './panelFilters.css';
 
 export const PanelFilters = () => {
   const [isFind, setIsFind] = useState('');
-  const [species, setSpecies] = useState('');
-  const [gender, setGender] = useState('');
-  const [status, setStatus] = useState('');
+  const [speciesValue, setSpeciesValue] = useState('');
+  const [genderValue, setGenderValue] = useState('');
+  const [statusValue, setStatusValue] = useState('');
 
   const handleChangeFind = (newValue: string) => {
     setIsFind(newValue);
@@ -29,20 +29,20 @@ export const PanelFilters = () => {
       <Select
         placeholder="Species"
         options={SPECIES_OPTIONS}
-        value={species}
-        onChange={(value) => setSpecies(value)}
+        value={speciesValue}
+        onChange={(value) => setSpeciesValue(value)}
       />
       <Select
         placeholder="Gender"
         options={GENDER_OPTIONS}
-        value={gender}
-        onChange={(value) => setGender(value)}
+        value={genderValue}
+        onChange={(value) => setGenderValue(value)}
       />
       <Select
         placeholder="Status"
         options={STATUS_OPTIONS}
-        value={status}
-        onChange={(value) => setStatus(value)}
+        value={statusValue}
+        onChange={(value) => setStatusValue(value)}
       />
     </div>
   );
