@@ -1,4 +1,4 @@
-import type { IOptions, TStatus } from '../components';
+import type { IOption, TStatus } from '../components';
 
 export const SPECIES_OPTIONS = [
   { value: 'human', label: 'Human' },
@@ -19,7 +19,7 @@ export const GENDER_OPTIONS = [
   { value: 'unknown', label: 'Unknown' },
 ];
 
-export const STATUS_OPTIONS: IOptions<TStatus>[] = [
+export const STATUS_OPTIONS: IOption<TStatus>[] = [
   { value: 'alive', label: 'Alive' },
   { value: 'dead', label: 'Dead' },
   { value: 'unknown', label: 'Unknown' },

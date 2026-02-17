@@ -7,10 +7,12 @@ import { GENDER_OPTIONS, SPECIES_OPTIONS, STATUS_OPTIONS } from '@/shared/consta
 import './panelFilters.css';
 
 export const PanelFilters = () => {
-  const [nameValue, setNameValue] = useState('');
-  const [speciesValue, setSpeciesValue] = useState('');
-  const [genderValue, setGenderValue] = useState('');
-  const [statusValue, setStatusValue] = useState('');
+  const [filters, setFilters] = useState({
+    name: '',
+    species: '',
+    gender: '',
+    status: '',
+  });
 
   return (
     <div className="panel__filters">
@@ -18,27 +20,27 @@ export const PanelFilters = () => {
         size="medium"
         view="bordered"
         placeholder="Filter by name..."
-        value={nameValue}
-        onChange={setNameValue}
+        value={filters.name}
+        onChange={(value) => setFilters((previousFilter) => ({ ...previousFilter, name: value }))}
         icon={SearchIcon}
       />
       <Select
         placeholder="Species"
         options={SPECIES_OPTIONS}
-        value={speciesValue}
-        onChange={setSpeciesValue}
+        value={filters.species}
+        onChange={(value) => setFilters((previousFilter) => ({ ...previousFilter, species: value }))}
       />
       <Select
         placeholder="Gender"
         options={GENDER_OPTIONS}
-        value={genderValue}
-        onChange={setGenderValue}
+        value={filters.gender}
+        onChange={(value) => setFilters((previousFilter) => ({ ...previousFilter, gender: value }))}
       />
       <Select
         placeholder="Status"
         options={STATUS_OPTIONS}
-        value={statusValue}
-        onChange={setStatusValue}
+        value={filters.status}
+        onChange={(value) => setFilters((previousFilter) => ({ ...previousFilter, status: value }))}
       />
     </div>
   );

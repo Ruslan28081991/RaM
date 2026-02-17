@@ -13,7 +13,10 @@ export const Loading = ({ size = 'small', text }: ILoading) => {
   return (
     <div className="loading">
       <img
-        className={cn('loading__image', `loading__image_${size}`)}
+        className={cn('loading__image', {
+          loading__image_large: size === 'large',
+          loading__image_small: size === 'small',
+        })}
         src={LoadingImg}
         alt="Loading image"
       />

@@ -1,9 +1,11 @@
+import type { ReactNode } from 'react';
+
 import { Footer, Header } from '@/shared/components';
 
 import './layout.css';
 
 interface ILayout {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export const Layout = ({ children }: ILayout) => {
