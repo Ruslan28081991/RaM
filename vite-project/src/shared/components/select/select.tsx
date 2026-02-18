@@ -106,7 +106,10 @@ export const Select = <T,>({
           {options.map((option) => (
             <li
               key={option.label}
-              className={cn('select__item', `select__item_${size}`)}
+              className={cn('select__item', {
+                select__item_medium: size === 'medium',
+                select__item_small: size === 'small',
+              })}
               onClick={() => handleChangeValue(option.value)}
             >
               <OptionComponent option={option} />

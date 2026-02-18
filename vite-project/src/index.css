@@ -13,6 +13,8 @@ body {
   font-family: Roboto, sans-serif;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }

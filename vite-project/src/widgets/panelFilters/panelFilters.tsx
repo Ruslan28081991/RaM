@@ -6,13 +6,24 @@ import { GENDER_OPTIONS, SPECIES_OPTIONS, STATUS_OPTIONS } from '@/shared/consta
 
 import './panelFilters.css';
 
+interface IFilters {
+  name: string;
+  species: string;
+  gender: string;
+  status: string;
+}
+
 export const PanelFilters = () => {
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<IFilters>({
     name: '',
     species: '',
     gender: '',
     status: '',
   });
+
+  const handleFiletrChange = (key: string, value: string) => {
+    setFilters((previousFilter) => ({ ...previousFilter, [key]: value }));
+  };
 
   return (
     <div className="panel__filters">
@@ -21,26 +32,26 @@ export const PanelFilters = () => {
         view="bordered"
         placeholder="Filter by name..."
         value={filters.name}
-        onChange={(value) => setFilters((previousFilter) => ({ ...previousFilter, name: value }))}
+        onChange={(value) => handleFiletrChange('name', value)}
         icon={SearchIcon}
       />
       <Select
         placeholder="Species"
         options={SPECIES_OPTIONS}
         value={filters.species}
-        onChange={(value) => setFilters((previousFilter) => ({ ...previousFilter, species: value }))}
+        onChange={(value) => handleFiletrChange('species', value)}
       />
       <Select
         placeholder="Gender"
         options={GENDER_OPTIONS}
         value={filters.gender}
-        onChange={(value) => setFilters((previousFilter) => ({ ...previousFilter, gender: value }))}
+        onChange={(value) => handleFiletrChange('gender', value)}
       />
       <Select
         placeholder="Status"
         options={STATUS_OPTIONS}
         value={filters.status}
-        onChange={(value) => setFilters((previousFilter) => ({ ...previousFilter, status: value }))}
+        onChange={(value) => handleFiletrChange('status', value)}
       />
     </div>
   );
