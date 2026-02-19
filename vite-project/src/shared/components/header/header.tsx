@@ -1,11 +1,13 @@
 import { LightImg, LogoImg, RuImg } from '@/assets/images';
 
+import { Container } from '../container/container';
+
 import './header.css';
 
 export const Header = () => {
   return (
     <header className="header">
-      <div className="containter">
+      <Container>
         <div className="header__inner">
           <div className="header__wrapper">
             <img
@@ -29,7 +31,7 @@ export const Header = () => {
             </button>
           </div>
         </div>
-      </div>
+      </Container>
     </header>
   );
 };

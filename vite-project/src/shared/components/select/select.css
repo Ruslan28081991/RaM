@@ -9,6 +9,7 @@
   align-items: center;
   justify-content: space-between;
   width: 240px;
+  height: 56px;
   padding: 0 10px;
   color: var(--color-text);
   background: var(--color-white);
@@ -16,10 +17,14 @@
   border-radius: 6px;
 }
 
+.select__header_medium {
+  width: 240px;
+}
+
 .select__header_small {
-  width: 101px;
+  width: 102px;
   height: 21px;
-  padding: 2px 5px;
+  padding: 2px 3px;
   font-size: 14px;
 }
 
@@ -40,15 +45,16 @@
 
 .select__list {
   position: absolute;
-  top: 100%;
+  top: 110%;
   left: 0;
   z-index: 1;
-  box-sizing: border-box;
   width: 100%;
   max-height: 160px;
   padding: 4px 0;
   margin: 0;
   overflow-y: auto;
+  outline: 1px solid var(--color-black);
+  outline-offset: -1px;
   background-color: var(--color-white);
   border: 1px solid var(--color-black);
   border-radius: 6px;

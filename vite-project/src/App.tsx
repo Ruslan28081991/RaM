@@ -11,20 +11,17 @@ function App() {
     <Routes>
       <Route
         path={APP_ROUTES.HOME}
-        element={
-          <Layout>
-            <CharactersList />
-          </Layout>
-        }
-      />
-      <Route
-        path={APP_ROUTES.CHARACTER_INFO}
-        element={
-          <Layout>
-            <CharacterInfo />
-          </Layout>
-        }
-      />
+        element={<Layout />}
+      >
+        <Route
+          index
+          element={<CharactersList />}
+        />
+        <Route
+          path={APP_ROUTES.CHARACTER_INFO}
+          element={<CharacterInfo />}
+        />
+      </Route>
     </Routes>
   );
 }

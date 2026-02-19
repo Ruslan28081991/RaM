@@ -6,13 +6,13 @@ import { ArrowDownIcon, ArrowDownSmallIcon, ArrowUpIcon, ArrowUpSmallIcon } from
 
 import './select.css';
 
-export interface IOptions<T> {
+export interface IOption<T> {
   label: string;
   value: T;
 }
 
 interface ISelectOptionComponent<T> {
-  option: IOptions<T>;
+  option: IOption<T>;
 }
 
 const DefaultOptionComponent = <T,>({ option }: ISelectOptionComponent<T>) => {
@@ -20,10 +20,10 @@ const DefaultOptionComponent = <T,>({ option }: ISelectOptionComponent<T>) => {
 };
 
 interface ISelect<T> {
-  options: IOptions<T>[];
+  options: IOption<T>[];
   value: T | null;
   onChange: (value: T) => void;
-  OptionComponent: ComponentType<ISelectOptionComponent<T>>;
+  OptionComponent?: ComponentType<ISelectOptionComponent<T>>;
   placeholder?: string;
   size?: 'medium' | 'small';
 }
@@ -59,6 +59,8 @@ export const Select = <T,>({
   };
 
   useEffect(() => {
+    if (!isOpen) return;
+
     const handleClickOutside = (event: MouseEvent) => {
       if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
         setIsOpen(false);
@@ -68,15 +70,18 @@ export const Select = <T,>({
     document.addEventListener('click', handleClickOutside);
 
     return () => document.removeEventListener('click', handleClickOutside);
-  }, []);
+  }, [isOpen]);
 
   return (
     <div
       className="select"
       ref={selectRef}
     >
-      <div
-        className={cn('select__header', `select__header_${size}`)}
+      <button
+        className={cn('select__header', {
+          select__header_medium: size === 'medium',
+          select__header_small: size === 'small',
+        })}
         onClick={hanldeOpenSelect}
       >
         {!selectedOptions ? (
@@ -86,22 +91,25 @@ export const Select = <T,>({
             <OptionComponent option={selectedOptions} />
           </div>
         )}
-        <button
+        <span
           className={cn('select__arrow', {
             select__arrow_small: size === 'small',
           })}
           aria-label="Toggle select"
         >
           {getArrowIcon()}
-        </button>
-      </div>
+        </span>
+      </button>
 
       {isOpen && (
         <ul className="select__list">
           {options.map((option) => (
             <li
               key={option.label}
-              className={cn('select__item', `select__item_${size}`)}
+              className={cn('select__item', {
+                select__item_medium: size === 'medium',
+                select__item_small: size === 'small',
+              })}
               onClick={() => handleChangeValue(option.value)}
             >
               <OptionComponent option={option} />

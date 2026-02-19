@@ -2,7 +2,8 @@
   display: flex;
   gap: 10px;
   align-items: center;
-  max-width: 230px;
+  width: 240px;
+  height: 56px;
   padding: 16px 8px;
   border: 1px solid var(--color-black);
   border-radius: 8px;
@@ -13,7 +14,8 @@
 }
 
 .inputComponent {
-  flex-grow: 1;
+  flex: 1;
+  width: 185px;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -23,7 +25,6 @@
 }
 
 .input_medium {
-  width: 178px;
   font-size: 16px;
 }
 
@@ -36,10 +37,4 @@
 .input__icon {
   flex-shrink: 0;
   margin-left: 5px;
-}
-
-.input__icon-close {
-  flex-shrink: 0;
-  margin-right: 5px;
-  cursor: pointer;
 }

@@ -32,11 +32,19 @@ export const Input = ({
   };
 
   return (
-    <div className={cn(`input_${view}`)}>
+    <div
+      className={cn({
+        input_underlined: view === 'underlined',
+        input_bordered: view === 'bordered',
+      })}
+    >
       {IconComponent && <IconComponent className="input__icon" />}
 
       <input
-        className={cn('inputComponent', `input_${size}`)}
+        className={cn('inputComponent', {
+          input_medium: size === 'medium',
+          input_small: size === 'small',
+        })}
         type="text"
         placeholder={placeholder}
         value={value}

@@ -1,16 +1,16 @@
+import { Outlet } from 'react-router-dom';
+
 import { Footer, Header } from '@/shared/components';
 
 import './layout.css';
 
-interface ILayout {
-  children: React.ReactNode;
-}
-
-export const Layout = ({ children }: ILayout) => {
+export const Layout = () => {
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main>
+        <Outlet />
+      </main>
       <Footer />
     </>
   );
