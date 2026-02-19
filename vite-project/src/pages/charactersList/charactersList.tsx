@@ -1,13 +1,12 @@
 import { TitleImg } from '@/assets/images';
-import { Loading } from '@/shared/components';
-import { Container } from '@/shared/components/container/container';
+import { Container, Loading } from '@/shared/components';
 
 import './charactersList.css';
 
 export const CharactersList = () => {
   return (
     <Container>
-      <main className="charactersList">
+      <div className="charactersList">
         <img
           className="charactersList__image"
           src={TitleImg}
@@ -18,7 +17,7 @@ export const CharactersList = () => {
           size="large"
           text="Loading characters..."
         />
-      </main>
+      </div>
     </Container>
   );
 };

@@ -1,11 +1,9 @@
-import type { ReactNode } from 'react';
+import type { PropsWithChildren } from 'react';
 
 import './container.css';
 
-interface IContainer {
-  children: ReactNode;
-}
+type TContainer = PropsWithChildren;
 
-export const Container = ({ children }: IContainer) => {
+export const Container = ({ children }: TContainer) => {
   return <div className="container">{children}</div>;
 };
