@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  min-height: 80vh;
   margin-bottom: 70px;
 }
 
@@ -11,7 +13,15 @@
   margin-top: 20px;
 }
 
-.characterList__container {
+.charactersList__text-empty {
+  flex-grow: 1;
+  align-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 100%;
+}
+
+.charactersList__container {
   display: grid;
   grid-template-columns: repeat(2, max-content);
   gap: 28px;

@@ -1,12 +1,12 @@
 import { TitleImg } from '@/assets/images';
-import { UseCharacter } from '@/hooks';
+import { useCharacter } from '@/hooks';
 import { Container, Loading } from '@/shared/components';
 import { CharacterCard, PanelFilters } from '@/widgets';
 
 import './charactersList.css';
 
 export const CharactersList = () => {
-  const { characters } = UseCharacter();
+  const { characters, isLoading } = useCharacter();
 
   return (
     <Container>
@@ -16,19 +16,21 @@ export const CharactersList = () => {
           src={TitleImg}
           alt="Title 'Rick & Morty'"
         />
-
         <PanelFilters />
-
-        {characters.length === 0 ? (
+        {isLoading && (
           <Loading
             size="large"
             text="Loading characters..."
           />
-        ) : (
-          <ul className="characterList__container">
+        )}
+        {!isLoading && characters.length === 0 && (
+          <p className="charactersList__text-empty">Characters list is empty...</p>
+        )}
+        {characters.length > 0 && (
+          <ul className="charactersList__container">
             {characters.map((character) => (
               <li
-                className="characterList__item"
+                className="charactersList__item"
                 key={character.id}
               >
                 <CharacterCard
