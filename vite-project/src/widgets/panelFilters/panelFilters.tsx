@@ -1,23 +1,31 @@
+import type { SetURLSearchParams } from 'react-router-dom';
+
 import { SearchIcon } from '@/assets/icons';
 import { Input, Select } from '@/shared/components';
 import { GENDER_OPTIONS, SPECIES_OPTIONS, STATUS_OPTIONS } from '@/shared/constants';
-import type { IFilters } from '@/shared/types/interfaces';
 
 import './panelFilters.css';
 
-interface IPanelFilters {
+export interface IPanelFilters {
   filters: {
     name: string;
     species: string;
     gender: string;
     status: string;
   };
-  setFilters: React.Dispatch<React.SetStateAction<IFilters>>;
+  changeFilters: SetURLSearchParams;
+  searchParams: URLSearchParams;
 }
 
-export const PanelFilters = ({ filters, setFilters }: IPanelFilters) => {
+export const PanelFilters = ({ filters, changeFilters, searchParams }: IPanelFilters) => {
   const handleFilterChange = (key: string, value: string) => {
-    setFilters((previousFilter) => ({ ...previousFilter, [key]: value }));
+    const copyParams = new URLSearchParams(searchParams);
+    if (value) {
+      copyParams.set(key, value);
+    } else {
+      copyParams.delete(key);
+    }
+    changeFilters(copyParams);
   };
 
   return (

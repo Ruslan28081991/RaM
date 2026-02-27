@@ -6,7 +6,7 @@ import type { ICharacterCard } from '@/widgets';
 
 export const getCharactersAPI = {
   getCharacters: async (filters: IFilters, signal: AbortSignal) => {
-    const entries = Object.entries(filters).filter(([_, value]) => value !== '');
+    const entries = Object.entries(filters).filter(([, value]) => value !== '');
     const params = new URLSearchParams(entries);
 
     const response = await axios.get(`${BASE_URL}/?${params}`, { signal });

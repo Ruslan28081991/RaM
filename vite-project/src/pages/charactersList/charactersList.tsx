@@ -1,20 +1,26 @@
-import { useState } from 'react';
+import { useMemo } from 'react';
+
+import { useSearchParams } from 'react-router-dom';
 
 import { TitleImg } from '@/assets/images';
 import { useCharacter } from '@/hooks';
 import { Container, Loading } from '@/shared/components';
-import type { IFilters } from '@/shared/types/interfaces';
 import { CharacterCard, PanelFilters } from '@/widgets';
 
 import './charactersList.css';
 
 export const CharactersList = () => {
-  const [filters, setFilters] = useState<IFilters>({
-    name: '',
-    species: '',
-    gender: '',
-    status: '',
-  });
+  const [searchParams, setSearchParams] = useSearchParams();
+  const filters = useMemo(
+    () => ({
+      name: searchParams.get('name') || '',
+      species: searchParams.get('species') || '',
+      gender: searchParams.get('gender') || '',
+      status: searchParams.get('status') || '',
+    }),
+    [searchParams]
+  );
+
   const { characters, isLoading } = useCharacter(filters);
 
   return (
@@ -27,7 +33,8 @@ export const CharactersList = () => {
         />
         <PanelFilters
           filters={filters}
-          setFilters={setFilters}
+          changeFilters={setSearchParams}
+          searchParams={searchParams}
         />
         {isLoading && (
           <Loading
