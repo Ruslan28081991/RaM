@@ -22,7 +22,6 @@ export const CharactersList = () => {
   );
 
   const { characters, isLoading } = useCharacter(filters);
-
   return (
     <Container>
       <div className="charactersList">

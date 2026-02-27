@@ -19,10 +19,16 @@ export const useCharacter = (filters: IFilters) => {
         setIsLoading(true);
         const data = await getCharactersAPI.getCharacters(filters, signal);
         setCharacters(data);
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          if (error.name === 'AbortError' || axios.isCancel(error)) return;
-          toast.error(`Ошибка при загрузке данных ${error}`);
+      } catch (error) {
+        if (axios.isCancel(error)) return;
+        if (error instanceof Error && error.name === 'AbortError') return;
+
+        if (axios.isAxiosError(error)) {
+          if (error.response?.status === 404) {
+            return setCharacters([]);
+          } else {
+            toast.error(`Ошибка при загрузке данных ${error.message}`);
+          }
         }
       } finally {
         setIsLoading(false);

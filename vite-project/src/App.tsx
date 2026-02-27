@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 
-import { CharacterInfo, CharactersList } from '@/pages';
+import { CharacterInfo, CharactersList, ErrorPage } from '@/pages';
 import { Layout } from '@/shared/components';
 import { APP_ROUTES } from '@/shared/constants';
 
@@ -23,6 +23,10 @@ function App() {
           <Route
             path={APP_ROUTES.CHARACTER_INFO}
             element={<CharacterInfo />}
+          />
+          <Route
+            path={APP_ROUTES.ERROR_PAGE}
+            element={<ErrorPage />}
           />
         </Route>
       </Routes>
