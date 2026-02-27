@@ -1,12 +1,21 @@
+import { useState } from 'react';
+
 import { TitleImg } from '@/assets/images';
 import { useCharacter } from '@/hooks';
 import { Container, Loading } from '@/shared/components';
+import type { IFilters } from '@/shared/types/interfaces';
 import { CharacterCard, PanelFilters } from '@/widgets';
 
 import './charactersList.css';
 
 export const CharactersList = () => {
-  const { characters, isLoading } = useCharacter();
+  const [filters, setFilters] = useState<IFilters>({
+    name: '',
+    species: '',
+    gender: '',
+    status: '',
+  });
+  const { characters, isLoading } = useCharacter(filters);
 
   return (
     <Container>
@@ -16,7 +25,10 @@ export const CharactersList = () => {
           src={TitleImg}
           alt="Title 'Rick & Morty'"
         />
-        <PanelFilters />
+        <PanelFilters
+          filters={filters}
+          setFilters={setFilters}
+        />
         {isLoading && (
           <Loading
             size="large"
@@ -26,6 +38,7 @@ export const CharactersList = () => {
         {!isLoading && characters.length === 0 && (
           <p className="charactersList__text-empty">Characters list is empty...</p>
         )}
+
         {characters.length > 0 && (
           <ul className="charactersList__container">
             {characters.map((character) => (

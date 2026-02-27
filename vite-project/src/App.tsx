@@ -4,25 +4,29 @@ import { CharacterInfo, CharactersList } from '@/pages';
 import { Layout } from '@/shared/components';
 import { APP_ROUTES } from '@/shared/constants';
 
+import ErrorBoundary from './shared/components/errorBoundary/errorBoudary';
+
 import './App.css';
 
 function App() {
   return (
-    <Routes>
-      <Route
-        path={APP_ROUTES.HOME}
-        element={<Layout />}
-      >
+    <ErrorBoundary>
+      <Routes>
         <Route
-          index
-          element={<CharactersList />}
-        />
-        <Route
-          path={APP_ROUTES.CHARACTER_INFO}
-          element={<CharacterInfo />}
-        />
-      </Route>
-    </Routes>
+          path={APP_ROUTES.HOME}
+          element={<Layout />}
+        >
+          <Route
+            index
+            element={<CharactersList />}
+          />
+          <Route
+            path={APP_ROUTES.CHARACTER_INFO}
+            element={<CharacterInfo />}
+          />
+        </Route>
+      </Routes>
+    </ErrorBoundary>
   );
 }
 
