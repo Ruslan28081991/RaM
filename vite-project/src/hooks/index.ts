@@ -1,1 +1,1 @@
-export * from './useCharacter/useCharacter';
+export * from './useCharacterList/useCharacterList';

@@ -1,16 +1,10 @@
 import React from 'react';
 
-import type { ErrorInfo, ReactNode } from 'react';
+import type { ErrorInfo } from 'react';
 
-type Props = {
-  children: ReactNode;
-};
+import type { TProps, TState } from '@/shared/types';
 
-type State = {
-  hasError: boolean;
-};
-
-class ErrorBoundary extends React.Component<Props, State> {
+class ErrorBoundary extends React.Component<TProps, TState> {
   state = { hasError: false };
 
   static getDerivedStateFromError(error: Error) {
@@ -24,7 +18,7 @@ class ErrorBoundary extends React.Component<Props, State> {
 
   render() {
     if (this.state.hasError) {
-      return <h1>Что то пошло не так!</h1>;
+      return <h1>Something went wrong!</h1>;
     }
 
     return this.props.children;

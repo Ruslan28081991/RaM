@@ -4,11 +4,11 @@ import toast from 'react-hot-toast';
 
 import axios from 'axios';
 
-import { getCharactersAPI } from '@/api';
-import type { IFilters } from '@/shared/types/interfaces';
+import { getCharactersList } from '@/api';
+import type { TFilters } from '@/shared/types';
 import type { ICharacterCard } from '@/widgets';
 
-export const useCharacter = (filters: IFilters) => {
+export const useCharacterList = (filters: TFilters) => {
   const [characters, setCharacters] = useState<ICharacterCard[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -17,7 +17,7 @@ export const useCharacter = (filters: IFilters) => {
     const load = async (signal: AbortSignal) => {
       try {
         setIsLoading(true);
-        const data = await getCharactersAPI.getCharacters(filters, signal);
+        const data = await getCharactersList.getCharacters(filters, signal);
         setCharacters(data);
       } catch (error) {
         if (axios.isCancel(error)) return;
@@ -27,7 +27,7 @@ export const useCharacter = (filters: IFilters) => {
           if (error.response?.status === 404) {
             return setCharacters([]);
           } else {
-            toast.error(`Ошибка при загрузке данных ${error.message}`);
+            toast.error(`Error loading data ${error.message}`);
           }
         }
       } finally {

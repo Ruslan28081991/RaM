@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 import { BASE_URL } from '@/shared/constants';
-import type { IFilters } from '@/shared/types/interfaces';
+import type { TFilters } from '@/shared/types';
 import type { ICharacterCard } from '@/widgets';
 
-export const getCharactersAPI = {
-  getCharacters: async (filters: IFilters, signal: AbortSignal) => {
+export const getCharactersList = {
+  getCharacters: async (filters: TFilters, signal: AbortSignal) => {
     const entries = Object.entries(filters).filter(([, value]) => value !== '');
     const params = new URLSearchParams(entries);
 

@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { TitleImg } from '@/assets/images';
-import { useCharacter } from '@/hooks';
+import { useCharacterList } from '@/hooks';
 import { Container, Loading } from '@/shared/components';
 import { CharacterCard, PanelFilters } from '@/widgets';
 
@@ -21,7 +21,7 @@ export const CharactersList = () => {
     [searchParams]
   );
 
-  const { characters, isLoading } = useCharacter(filters);
+  const { characters, isLoading } = useCharacterList(filters);
   return (
     <Container>
       <div className="charactersList">
