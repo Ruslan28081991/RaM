@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 
 import axios from 'axios';
 
-import { getCharactersList } from '@/api';
+import { getCharactersListAPI } from '@/api';
 import type { TFilters } from '@/shared/types';
 import type { ICharacterCard } from '@/widgets';
 
@@ -17,7 +17,7 @@ export const useCharacterList = (filters: TFilters) => {
     const load = async (signal: AbortSignal) => {
       try {
         setIsLoading(true);
-        const data = await getCharactersList.getCharacters(filters, signal);
+        const data = await getCharactersListAPI.getCharacters(filters, signal);
         setCharacters(data);
       } catch (error) {
         if (axios.isCancel(error)) return;
