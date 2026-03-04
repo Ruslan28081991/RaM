@@ -13,19 +13,22 @@ import { CharacterCardStatus } from './characterCardStatus';
 
 import './characterCard.css';
 
-interface ICharacterCard {
+export interface ICharacterCard {
+  id: number;
   image: string;
   name: string;
   gender: string;
   species: string;
-  location: string;
+  location: {
+    name: string;
+  };
   status: TStatus;
 }
 
 export const CharacterCard = ({ image, name, gender, species, location, status }: ICharacterCard) => {
   const [isEdit, setIsEdit] = useState(false);
   const [characterName, setCharacterName] = useState(name);
-  const [characterLocation, setCharacterLocation] = useState(location);
+  const [characterLocation, setCharacterLocation] = useState(location.name);
   const [characterStatus, setCharacterStatus] = useState<TStatus>(status);
 
   const trimmedName = characterName.trim();
@@ -44,7 +47,7 @@ export const CharacterCard = ({ image, name, gender, species, location, status }
   const handleEditCancel = () => {
     if (!trimmedName || !trimmerLocation) return notify();
     setCharacterName(name);
-    setCharacterLocation(location);
+    setCharacterLocation(location.name);
     setIsEdit(false);
   };
 

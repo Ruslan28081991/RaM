@@ -1,7 +1,7 @@
 import type { IOption, TStatus } from '../components';
-import type { IOptions } from '../types/optionTypes';
+import type { TOptions } from '../types';
 
-export const SPECIES_OPTIONS: IOptions[] = [
+export const SPECIES_OPTIONS: TOptions[] = [
   { value: 'human', label: 'Human' },
   { value: 'alien', label: 'Alien' },
   { value: 'humanoid', label: 'Humanoid' },
@@ -13,7 +13,7 @@ export const SPECIES_OPTIONS: IOptions[] = [
   { value: 'unknown', label: 'Unknown' },
 ];
 
-export const GENDER_OPTIONS: IOptions[] = [
+export const GENDER_OPTIONS: TOptions[] = [
   { value: 'female', label: 'Female' },
   { value: 'male', label: 'Male' },
   { value: 'genderless', label: 'Genderless' },
