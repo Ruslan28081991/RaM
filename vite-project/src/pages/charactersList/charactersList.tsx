@@ -20,8 +20,8 @@ export const CharactersList = () => {
     }),
     [searchParams]
   );
-
   const { characters, isLoading } = useCharacterList(filters);
+
   return (
     <Container>
       <div className="charactersList">
@@ -35,7 +35,7 @@ export const CharactersList = () => {
           changeFilters={setSearchParams}
           searchParams={searchParams}
         />
-        {isLoading && (
+        {isLoading && characters.length === 0 && (
           <Loading
             size="large"
             text="Loading characters..."
@@ -65,6 +65,8 @@ export const CharactersList = () => {
             ))}
           </ul>
         )}
+
+        {isLoading && characters.length > 0 && <Loading size="small" />}
       </div>
     </Container>
   );
