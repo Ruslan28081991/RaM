@@ -1,0 +1,34 @@
+import { useEffect, useState } from 'react';
+
+import toast from 'react-hot-toast';
+
+import axios from 'axios';
+
+import { getCharactersListAPI } from '@/api';
+import type { ICharacter } from '@/shared/types';
+
+export const useCharacterId = (id: string) => {
+  const [character, setCharacter] = useState<ICharacter | null>(null);
+
+  useEffect(() => {
+    const loadCharacter = async (id: string) => {
+      try {
+        const data = await getCharactersListAPI.getCharacterId(id);
+        setCharacter(data.info);
+      } catch (error) {
+        if (axios.isCancel(error)) return;
+
+        if (axios.isAxiosError(error)) {
+          if (error.response?.status === 404) {
+            return setCharacter(null);
+          } else {
+            toast.error(`Error loading data ${error.message}`);
+          }
+        }
+      }
+    };
+    loadCharacter(id);
+  }, [id]);
+
+  return { character };
+};

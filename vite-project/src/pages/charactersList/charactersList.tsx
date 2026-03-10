@@ -21,6 +21,7 @@ export const CharactersList = () => {
     [searchParams]
   );
   const { characters, isLoading } = useCharacterList(filters);
+  const charactersMemo = useMemo(() => characters, [characters]);
 
   return (
     <Container>
@@ -47,7 +48,7 @@ export const CharactersList = () => {
 
         {characters.length > 0 && (
           <ul className="charactersList__container">
-            {characters.map((character) => (
+            {charactersMemo.map((character) => (
               <li
                 className="charactersList__item"
                 key={character.id}

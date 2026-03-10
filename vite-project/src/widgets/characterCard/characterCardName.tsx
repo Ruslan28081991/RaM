@@ -4,12 +4,13 @@ import { Input } from '@/shared/components';
 import { APP_ROUTES } from '@/shared/constants';
 
 interface ICharacterCardName {
+  id: number;
   isEdit: boolean;
   characterName: string;
   setCharacterName: (value: string) => void;
 }
 
-export const CharacterCardName = ({ isEdit, characterName, setCharacterName }: ICharacterCardName) => {
+export const CharacterCardName = ({ id, isEdit, characterName, setCharacterName }: ICharacterCardName) => {
   const handleChangeName = (value: string) => {
     setCharacterName(value);
   };
@@ -26,7 +27,7 @@ export const CharacterCardName = ({ isEdit, characterName, setCharacterName }: I
       ) : (
         <Link
           className="characterCard__name"
-          to={APP_ROUTES.CHARACTER_INFO}
+          to={`${APP_ROUTES.CHARACTER}/${id}`}
         >
           {characterName}
         </Link>
