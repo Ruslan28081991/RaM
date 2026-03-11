@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import React from 'react';
 
 import toast from 'react-hot-toast';
 
@@ -25,7 +26,7 @@ export interface ICharacterCard {
   status: TStatus;
 }
 
-export const CharacterCard = ({ image, name, gender, species, location, status }: ICharacterCard) => {
+export const CharacterCard = React.memo(({ id, image, name, gender, species, location, status }: ICharacterCard) => {
   const [isEdit, setIsEdit] = useState(false);
   const [characterName, setCharacterName] = useState(name);
   const [characterLocation, setCharacterLocation] = useState(location.name);
@@ -72,6 +73,7 @@ export const CharacterCard = ({ image, name, gender, species, location, status }
       <div className="characterCard__info">
         <div className="characterCard__wrapper">
           <CharacterCardName
+            id={id}
             isEdit={isEdit}
             characterName={characterName}
             setCharacterName={setCharacterName}
@@ -126,4 +128,4 @@ export const CharacterCard = ({ image, name, gender, species, location, status }
       </div>
     </div>
   );
-};
+});

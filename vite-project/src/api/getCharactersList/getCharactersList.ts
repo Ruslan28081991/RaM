@@ -19,4 +19,10 @@ export const getCharactersListAPI = {
 
     return { changeResponse, info };
   },
+
+  getCharacterId: async (id: string) => {
+    const response = await axios.get(`${BASE_URL}/${id}`);
+    const info = response.data;
+    return { info };
+  },
 };
