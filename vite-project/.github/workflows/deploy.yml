@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - errorPage
 
 permissions:
   contents: read
