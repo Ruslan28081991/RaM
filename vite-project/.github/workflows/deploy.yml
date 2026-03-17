@@ -26,9 +26,11 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./vite-project
 
       - name: Build project
         run: npm run build
+        working-directory: ./vite-project
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
