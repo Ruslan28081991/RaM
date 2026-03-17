@@ -2,7 +2,8 @@ export const APP_ROUTES = {
   HOME: '/',
   CHARACTER: 'character',
   CHARACTER_INFO: `character/:id`,
-  ERROR_PAGE: 'error',
+  NOT_FOUND: '404',
+  ERROR: '*',
 };
 
 export const TIMER_LOADING = 1500;

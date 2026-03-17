@@ -25,7 +25,11 @@ function App() {
             element={<CharacterInfo />}
           />
           <Route
-            path={APP_ROUTES.ERROR_PAGE}
+            path={APP_ROUTES.NOT_FOUND}
+            element={<ErrorPage />}
+          />
+          <Route
+            path={APP_ROUTES.ERROR}
             element={<ErrorPage />}
           />
         </Route>

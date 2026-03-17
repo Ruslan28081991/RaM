@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 
 import { ArrowImg } from '@/assets/images';
 import { useCharacterId } from '@/hooks';
@@ -8,7 +8,9 @@ import './characterInfo.css';
 
 export const CharacterInfo = () => {
   const { id } = useParams();
-  const { character } = useCharacterId(id!);
+  const { character, error } = useCharacterId(id!);
+
+  if (error) return <Navigate to="/404" />;
 
   return (
     <>
