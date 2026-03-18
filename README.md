@@ -56,6 +56,7 @@ CSS Modules — стилизация компонентов
 GitHub Actions — автоматический деплой на GitHub Pages
 
 ## 📁 Структура проекта
+```bash
 vite-project/
 ├── src/
 │   ├── api/          # запросы к API
@@ -68,6 +69,7 @@ vite-project/
 │   └── main.tsx      # точка входа
 ├── index.html
 └── package.json
+```
 
 ## 🌐 Деплой
 Автоматический деплой на GitHub Pages настроен через GitHub Actions.
