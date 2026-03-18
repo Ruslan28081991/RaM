@@ -49,8 +49,6 @@ React Router — маршрутизация
 
 Axios — запросы к API
 
-React Query — управление состоянием и кэширование данных
-
 CSS Modules — стилизация компонентов
 
 GitHub Actions — автоматический деплой на GitHub Pages
