@@ -11,7 +11,7 @@ import './index.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter basename="/RaM">
+    <BrowserRouter>
       <App />
       <Toaster position="bottom-right" />
     </BrowserRouter>
