@@ -22,7 +22,7 @@ export const CharactersList = () => {
   );
   const { characters, isLoading } = useCharacterList(filters);
   const charactersMemo = useMemo(() => characters, [characters]);
-
+  console.log(isLoading);
   return (
     <Container>
       <div className="charactersList">

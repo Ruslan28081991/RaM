@@ -73,7 +73,9 @@ export const useCharacterList = (filters: TFilters) => {
           }
         }
       } finally {
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500);
       }
     };
     load(abortController.signal);
@@ -83,5 +85,5 @@ export const useCharacterList = (filters: TFilters) => {
     };
   }, [filters, page]);
 
-  return { characters, isLoading };
+  return { characters, isLoading, page };
 };

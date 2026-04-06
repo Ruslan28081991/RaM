@@ -9,6 +9,9 @@
   margin-top: 30px;
   margin-left: 150px;
   font-family: Karla, sans-serif;
+
+  /* font-size: 18px; */
+  font-weight: 700;
   color: black;
   text-decoration: dashed;
 }

@@ -8,9 +8,9 @@ import './characterInfo.css';
 
 export const CharacterInfo = () => {
   const { id } = useParams();
-  const { character, error } = useCharacterId(id!);
+  const { character, isError } = useCharacterId(id!);
 
-  if (error) return <Navigate to="/404" />;
+  if (isError) return <Navigate to="/404" />;
 
   return (
     <>
