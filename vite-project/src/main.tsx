@@ -12,7 +12,7 @@ import './index.css';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     {/* <BrowserRouter basename="/RaM"> */}
-    <HashRouter basename="/RaM">
+    <HashRouter>
       <App />
       <Toaster position="bottom-right" />
     </HashRouter>
