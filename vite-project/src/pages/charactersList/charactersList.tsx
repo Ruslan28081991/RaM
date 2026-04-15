@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { TitleImg } from '@/assets/images';
 import { useCharacterList } from '@/hooks';
@@ -20,17 +20,19 @@ export const CharactersList = () => {
     }),
     [searchParams]
   );
-  const { characters, isLoading } = useCharacterList(filters);
+  const { characters, isLoading, loaderRef } = useCharacterList(filters);
   const charactersMemo = useMemo(() => characters, [characters]);
-  console.log(isLoading);
+
   return (
     <Container>
       <div className="charactersList">
-        <img
-          className="charactersList__image"
-          src={TitleImg}
-          alt="Title 'Rick & Morty'"
-        />
+        <Link to="/">
+          <img
+            className="charactersList__image"
+            src={TitleImg}
+            alt="Title 'Rick & Morty'"
+          />
+        </Link>
         <PanelFilters
           filters={filters}
           changeFilters={setSearchParams}
@@ -68,6 +70,7 @@ export const CharactersList = () => {
         )}
 
         {isLoading && characters.length > 0 && <Loading size="small" />}
+        <div ref={loaderRef} />
       </div>
     </Container>
   );

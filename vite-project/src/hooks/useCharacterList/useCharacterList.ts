@@ -1,21 +1,20 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import toast from 'react-hot-toast';
 
 import axios from 'axios';
 
 import { getCharactersListAPI } from '@/api';
-import { HEIGHT_PIXEL, SCROLL_TRIGGER_DIVISOR, TIMER_LOADING } from '@/shared/constants';
 import type { TFilters } from '@/shared/types';
 import type { ICharacterCard } from '@/widgets';
-
-import { useThrottle } from '../useThrottle/useThrottle';
 
 export const useCharacterList = (filters: TFilters) => {
   const [characters, setCharacters] = useState<ICharacterCard[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
+  const loaderRef = useRef(null);
+  const isFirstLoad = useRef(true);
 
   const handleNextPage = useCallback(() => {
     if (isLoading || !hasMore) return;
@@ -23,34 +22,40 @@ export const useCharacterList = (filters: TFilters) => {
     setPage((prev) => prev + 1);
   }, [isLoading, hasMore]);
 
-  const throttleNextPage = useThrottle(handleNextPage, TIMER_LOADING);
-
   useEffect(() => {
-    const checkPosition = () => {
-      if (isLoading || !hasMore) return;
+    const el = loaderRef.current;
+    if (!el) return;
 
-      const height = document.body.offsetHeight;
-      const screenHeight = window.innerHeight;
-      const scrolled = window.scrollY;
-      const threshold = height - screenHeight / SCROLL_TRIGGER_DIVISOR - HEIGHT_PIXEL;
-      const position = scrolled + screenHeight;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const target = entries[0];
 
-      if (position >= threshold) {
-        throttleNextPage();
+        if (!target.isIntersecting) return;
+        if (isLoading) return;
+        if (!hasMore) return;
+
+        if (isFirstLoad.current) {
+          isFirstLoad.current = false;
+          return;
+        }
+
+        handleNextPage();
+      },
+      {
+        rootMargin: '200px',
       }
-    };
+    );
 
-    window.addEventListener('scroll', checkPosition);
+    observer.observe(el);
 
-    return () => {
-      window.removeEventListener('scroll', checkPosition);
-    };
-  }, [isLoading, hasMore, throttleNextPage]);
+    return () => observer.unobserve(el);
+  }, [isLoading, hasMore, handleNextPage]);
 
   useEffect(() => {
     setPage(1);
     setCharacters([]);
     setHasMore(true);
+    isFirstLoad.current = true;
   }, [filters]);
 
   useEffect(() => {
@@ -73,9 +78,7 @@ export const useCharacterList = (filters: TFilters) => {
           }
         }
       } finally {
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 500);
+        setIsLoading(false);
       }
     };
     load(abortController.signal);
@@ -85,5 +88,5 @@ export const useCharacterList = (filters: TFilters) => {
     };
   }, [filters, page]);
 
-  return { characters, isLoading, page };
+  return { characters, isLoading, page, loaderRef };
 };
