@@ -2,7 +2,7 @@ import { Link, Navigate, useParams } from 'react-router-dom';
 
 import { ArrowImg } from '@/assets/images';
 import { useCharacterId } from '@/hooks';
-import { Loading } from '@/shared/components';
+import { Container, Loading } from '@/shared/components';
 
 import './characterInfo.css';
 
@@ -13,7 +13,7 @@ export const CharacterInfo = () => {
   if (isError) return <Navigate to="/404" />;
 
   return (
-    <>
+    <Container>
       <Link
         className="characterInfo__link"
         to="/"
@@ -62,6 +62,6 @@ export const CharacterInfo = () => {
           />
         )}
       </section>
-    </>
+    </Container>
   );
 };

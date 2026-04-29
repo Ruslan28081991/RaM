@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import type { SetURLSearchParams } from 'react-router-dom';
 
 import { SearchIcon } from '@/assets/icons';
-import { useDebounce } from '@/hooks/useDebounce/useDebounce';
+import { useDebounce } from '@/hooks';
 import { Input, Select } from '@/shared/components';
-import { GENDER_OPTIONS, SPECIES_OPTIONS, STATUS_OPTIONS } from '@/shared/constants';
+import { GENDER_OPTIONS, SPECIES_OPTIONS, STATUS_OPTIONS, TIMER_DEBOUNCE } from '@/shared/constants';
 
 import './panelFilters.css';
 
@@ -34,7 +34,7 @@ export const PanelFilters = ({ filters, changeFilters, searchParams }: IPanelFil
     changeFilters(copyParams);
   };
 
-  const debouncedName = useDebounce(name, 500);
+  const debouncedName = useDebounce(name, TIMER_DEBOUNCE);
 
   useEffect(() => {
     handleFilterChange('name', debouncedName);

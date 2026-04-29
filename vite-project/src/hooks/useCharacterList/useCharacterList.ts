@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import toast from 'react-hot-toast';
 
@@ -12,15 +12,10 @@ export const useCharacterList = (filters: TFilters) => {
   const [characters, setCharacters] = useState<ICharacterCard[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(false);
+  const hasMoreRef = useRef(true);
   const loaderRef = useRef(null);
-  const isFirstLoad = useRef(true);
-
-  const handleNextPage = useCallback(() => {
-    if (isLoading || !hasMore) return;
-
-    setPage((prev) => prev + 1);
-  }, [isLoading, hasMore]);
+  const paginationLockRef = useRef(false);
+  const didInitLoadRef = useRef(false);
 
   useEffect(() => {
     const el = loaderRef.current;
@@ -31,31 +26,31 @@ export const useCharacterList = (filters: TFilters) => {
         const target = entries[0];
 
         if (!target.isIntersecting) return;
-        if (isLoading) return;
-        if (!hasMore) return;
+        if (!didInitLoadRef.current) return;
+        if (paginationLockRef.current) return;
+        if (!hasMoreRef.current) return;
 
-        if (isFirstLoad.current) {
-          isFirstLoad.current = false;
-          return;
-        }
-
-        handleNextPage();
+        paginationLockRef.current = true;
+        setPage((prev) => prev + 1);
       },
       {
-        rootMargin: '200px',
+        rootMargin: '0px 0px 200px 0px',
       }
     );
 
     observer.observe(el);
 
-    return () => observer.unobserve(el);
-  }, [isLoading, hasMore, handleNextPage]);
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     setPage(1);
     setCharacters([]);
-    setHasMore(true);
-    isFirstLoad.current = true;
+    hasMoreRef.current = true;
+    paginationLockRef.current = true;
+    didInitLoadRef.current = false;
   }, [filters]);
 
   useEffect(() => {
@@ -65,7 +60,10 @@ export const useCharacterList = (filters: TFilters) => {
         setIsLoading(true);
         const data = await getCharactersListAPI.getCharacters(filters, page, signal);
         setCharacters((prevData) => (page === 1 ? data.changeResponse : [...prevData, ...data.changeResponse]));
-        setHasMore(data.info.next !== null);
+        hasMoreRef.current = data.info.next !== null;
+        if (page === 1) {
+          didInitLoadRef.current = true;
+        }
       } catch (error) {
         if (axios.isCancel(error)) return;
         if (error instanceof Error && error.name === 'AbortError') return;
@@ -79,6 +77,7 @@ export const useCharacterList = (filters: TFilters) => {
         }
       } finally {
         setIsLoading(false);
+        paginationLockRef.current = false;
       }
     };
     load(abortController.signal);
@@ -88,5 +87,5 @@ export const useCharacterList = (filters: TFilters) => {
     };
   }, [filters, page]);
 
-  return { characters, isLoading, page, loaderRef };
+  return { characters, isLoading, loaderRef };
 };
