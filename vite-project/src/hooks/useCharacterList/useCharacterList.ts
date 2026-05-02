@@ -8,6 +8,8 @@ import { getCharactersListAPI } from '@/api';
 import type { TFilters } from '@/shared/types';
 import type { ICharacterCard } from '@/widgets';
 
+import { useThrottle } from '../useThrottle/useThrottle';
+
 export const useCharacterList = (filters: TFilters) => {
   const [characters, setCharacters] = useState<ICharacterCard[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +18,12 @@ export const useCharacterList = (filters: TFilters) => {
   const loaderRef = useRef(null);
   const paginationLockRef = useRef(false);
   const didInitLoadRef = useRef(false);
+
+  const handleNextPage = () => {
+    setPage((prev) => prev + 1);
+  };
+
+  const throttleNextPage = useThrottle(handleNextPage, 500);
 
   useEffect(() => {
     const el = loaderRef.current;
@@ -31,7 +39,7 @@ export const useCharacterList = (filters: TFilters) => {
         if (!hasMoreRef.current) return;
 
         paginationLockRef.current = true;
-        setPage((prev) => prev + 1);
+        throttleNextPage();
       },
       {
         rootMargin: '0px 0px 200px 0px',
@@ -43,7 +51,7 @@ export const useCharacterList = (filters: TFilters) => {
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [throttleNextPage]);
 
   useEffect(() => {
     setPage(1);
