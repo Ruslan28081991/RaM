@@ -2,6 +2,7 @@ export * from './container/container';
 export * from './errorBoundary/errorBoudary';
 export * from './footer/footer';
 export * from './header/header';
+export * from './infitityScroll/infinityScroll';
 export * from './input/input';
 export * from './layout/layout';
 export * from './loading/loading';

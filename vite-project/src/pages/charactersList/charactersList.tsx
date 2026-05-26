@@ -4,7 +4,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 
 import { TitleImg } from '@/assets/images';
 import { useCharacterList } from '@/hooks';
-import { Container, Loading } from '@/shared/components';
+import { Container, InfinityScroll, Loading } from '@/shared/components';
 import { CharacterCard, PanelFilters } from '@/widgets';
 
 import './charactersList.css';
@@ -20,7 +20,7 @@ export const CharactersList = () => {
     }),
     [searchParams]
   );
-  const { characters, isLoading, loaderRef } = useCharacterList(filters);
+  const { characters, isLoading, hasMore, handleNextPage } = useCharacterList(filters);
   const charactersMemo = useMemo(() => characters, [characters]);
 
   return (
@@ -68,9 +68,14 @@ export const CharactersList = () => {
             ))}
           </ul>
         )}
-
-        {isLoading && characters.length > 0 && <Loading size="small" />}
-        <div ref={loaderRef} />
+        {characters.length > 0 && (
+          <InfinityScroll
+            loader={<Loading size="small" />}
+            isLoadingMore={isLoading}
+            isHasMore={hasMore}
+            onLoadMore={handleNextPage}
+          />
+        )}
       </div>
     </Container>
   );

@@ -5,88 +5,63 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 
 import { getCharactersListAPI } from '@/api';
+import { FETCH_DELAY } from '@/shared/constants';
 import type { TFilters } from '@/shared/types';
 import type { ICharacterCard } from '@/widgets';
-
-import { useThrottle } from '../useThrottle/useThrottle';
 
 export const useCharacterList = (filters: TFilters) => {
   const [characters, setCharacters] = useState<ICharacterCard[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
-  const hasMoreRef = useRef(true);
-  const loaderRef = useRef(null);
-  const paginationLockRef = useRef(false);
-  const didInitLoadRef = useRef(false);
+  const loadedPageRef = useRef(0);
 
   const handleNextPage = () => {
-    setPage((prev) => prev + 1);
+    if (page === loadedPageRef.current) {
+      setPage((prev) => prev + 1);
+    }
   };
-
-  const throttleNextPage = useThrottle(handleNextPage, 500);
-
-  useEffect(() => {
-    const el = loaderRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const target = entries[0];
-
-        if (!target.isIntersecting) return;
-        if (!didInitLoadRef.current) return;
-        if (paginationLockRef.current) return;
-        if (!hasMoreRef.current) return;
-
-        paginationLockRef.current = true;
-        throttleNextPage();
-      },
-      {
-        rootMargin: '0px 0px 200px 0px',
-      }
-    );
-
-    observer.observe(el);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [throttleNextPage]);
 
   useEffect(() => {
     setPage(1);
+    loadedPageRef.current = 0;
     setCharacters([]);
-    hasMoreRef.current = true;
-    paginationLockRef.current = true;
-    didInitLoadRef.current = false;
+    setHasMore(true);
   }, [filters]);
 
   useEffect(() => {
-    const abortController = new AbortController();
-    const load = async (signal: AbortSignal) => {
-      try {
-        setIsLoading(true);
-        const data = await getCharactersListAPI.getCharacters(filters, page, signal);
-        setCharacters((prevData) => (page === 1 ? data.changeResponse : [...prevData, ...data.changeResponse]));
-        hasMoreRef.current = data.info.next !== null;
-        if (page === 1) {
-          didInitLoadRef.current = true;
-        }
-      } catch (error) {
-        if (axios.isCancel(error)) return;
-        if (error instanceof Error && error.name === 'AbortError') return;
+    let attempts = 0;
+    const maxAttempts = 10;
 
-        if (axios.isAxiosError(error)) {
-          if (error.response?.status === 404) {
-            return setCharacters([]);
-          } else {
-            toast.error(`Error loading data ${error.message}`);
+    const abortController = new AbortController();
+
+    const load = async (signal: AbortSignal) => {
+      while (attempts < maxAttempts) {
+        try {
+          setIsLoading(true);
+          const data = await getCharactersListAPI.getCharacters(filters, page, signal);
+          setCharacters((prevData) => (page === 1 ? data.changeResponse : [...prevData, ...data.changeResponse]));
+          setHasMore(data.info.next !== null);
+          loadedPageRef.current = page;
+          break;
+        } catch (error) {
+          attempts++;
+          if (attempts > maxAttempts) {
+            if (axios.isAxiosError(error)) {
+              if (error.response?.status === 404) {
+                return setCharacters([]);
+              } else {
+                toast.error(`Error loading data ${error.message}`);
+              }
+            }
           }
+
+          await new Promise((resolve) => {
+            setTimeout(resolve, FETCH_DELAY);
+          });
         }
-      } finally {
-        setIsLoading(false);
-        paginationLockRef.current = false;
       }
+      setIsLoading(false);
     };
     load(abortController.signal);
 
@@ -95,5 +70,5 @@ export const useCharacterList = (filters: TFilters) => {
     };
   }, [filters, page]);
 
-  return { characters, isLoading, loaderRef };
+  return { characters, isLoading, hasMore, handleNextPage };
 };

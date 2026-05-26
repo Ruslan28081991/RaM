@@ -5,12 +5,12 @@ import type { TFilters } from '@/shared/types/types';
 import type { ICharacterCard } from '@/widgets';
 
 export const getCharactersListAPI = {
-  getCharacters: async (filters: TFilters, page: number, signal: AbortSignal) => {
+  getCharacters: async (filters: TFilters, page: number, signal?: AbortSignal) => {
     const entries = Object.entries(filters).filter(([, value]) => value !== '');
     const params = new URLSearchParams(entries);
     params.append('page', String(page));
 
-    const response = await axios.get(`${BASE_URL}/?${params}`, { signal });
+    const response = await axios.get(`${BASE_URL}?${params}`, { signal });
     const changeResponse = response.data.results.map((character: ICharacterCard) => ({
       ...character,
       status: character.status[0].toLowerCase() + character.status.slice(1),
