@@ -1,10 +1,11 @@
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { SetURLSearchParams } from 'react-router-dom';
 
 import { SearchIcon } from '@/assets/icons';
+import { useDebounce } from '@/hooks';
 import { Input, Select } from '@/shared/components';
-import { GENDER_OPTIONS, SPECIES_OPTIONS, STATUS_OPTIONS } from '@/shared/constants';
+import { GENDER_OPTIONS, SPECIES_OPTIONS, STATUS_OPTIONS, TIMER_DEBOUNCE } from '@/shared/constants';
 
 import './panelFilters.css';
 
@@ -21,7 +22,6 @@ export interface IPanelFilters {
 
 export const PanelFilters = ({ filters, changeFilters, searchParams }: IPanelFilters) => {
   const [name, setName] = useState(filters.name);
-  const [isPending, startTransition] = useTransition();
 
   const handleFilterChange = (key: string, value: string) => {
     const copyParams = new URLSearchParams(searchParams);
@@ -34,11 +34,11 @@ export const PanelFilters = ({ filters, changeFilters, searchParams }: IPanelFil
     changeFilters(copyParams);
   };
 
+  const debaucedName = useDebounce(name, TIMER_DEBOUNCE);
+
   useEffect(() => {
-    startTransition(() => {
-      handleFilterChange('name', name);
-    });
-  }, [name]);
+    handleFilterChange('name', debaucedName);
+  }, [debaucedName]);
 
   return (
     <div className="panel__filters">
@@ -68,7 +68,7 @@ export const PanelFilters = ({ filters, changeFilters, searchParams }: IPanelFil
         value={filters.status}
         onChange={(value) => handleFilterChange('status', value)}
       />
-      {isPending && <div>Loading...</div>}
+      {/* {isPending && <div>Loading...</div>} */}
     </div>
   );
 };
