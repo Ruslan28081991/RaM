@@ -1,80 +1,67 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import toast from 'react-hot-toast';
 
 import axios from 'axios';
 
 import { getCharactersListAPI } from '@/api';
-import { HEIGHT_PIXEL, SCROLL_TRIGGER_DIVISOR, TIMER_LOADING } from '@/shared/constants';
+import { FETCH_DELAY } from '@/shared/constants';
 import type { TFilters } from '@/shared/types';
 import type { ICharacterCard } from '@/widgets';
-
-import { useThrottle } from '../useThrottle/useThrottle';
 
 export const useCharacterList = (filters: TFilters) => {
   const [characters, setCharacters] = useState<ICharacterCard[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(false);
+  const loadedPageRef = useRef(0);
 
-  const handleNextPage = useCallback(() => {
-    if (isLoading || !hasMore) return;
-
-    setPage((prev) => prev + 1);
-  }, [isLoading, hasMore]);
-
-  const throttleNextPage = useThrottle(handleNextPage, TIMER_LOADING);
-
-  useEffect(() => {
-    const checkPosition = () => {
-      if (isLoading || !hasMore) return;
-
-      const height = document.body.offsetHeight;
-      const screenHeight = window.innerHeight;
-      const scrolled = window.scrollY;
-      const threshold = height - screenHeight / SCROLL_TRIGGER_DIVISOR - HEIGHT_PIXEL;
-      const position = scrolled + screenHeight;
-
-      if (position >= threshold) {
-        throttleNextPage();
-      }
-    };
-
-    window.addEventListener('scroll', checkPosition);
-
-    return () => {
-      window.removeEventListener('scroll', checkPosition);
-    };
-  }, [isLoading, hasMore, throttleNextPage]);
+  const handleNextPage = () => {
+    if (page === loadedPageRef.current) {
+      setPage((prev) => prev + 1);
+    }
+  };
 
   useEffect(() => {
     setPage(1);
+    loadedPageRef.current = 0;
     setCharacters([]);
     setHasMore(true);
   }, [filters]);
 
   useEffect(() => {
-    const abortController = new AbortController();
-    const load = async (signal: AbortSignal) => {
-      try {
-        setIsLoading(true);
-        const data = await getCharactersListAPI.getCharacters(filters, page, signal);
-        setCharacters((prevData) => (page === 1 ? data.changeResponse : [...prevData, ...data.changeResponse]));
-        setHasMore(data.info.next !== null);
-      } catch (error) {
-        if (axios.isCancel(error)) return;
-        if (error instanceof Error && error.name === 'AbortError') return;
+    let attempts = 0;
+    const maxAttempts = 10;
 
-        if (axios.isAxiosError(error)) {
-          if (error.response?.status === 404) {
-            return setCharacters([]);
-          } else {
-            toast.error(`Error loading data ${error.message}`);
+    const abortController = new AbortController();
+
+    const load = async (signal: AbortSignal) => {
+      while (attempts < maxAttempts) {
+        try {
+          setIsLoading(true);
+          const data = await getCharactersListAPI.getCharacters(filters, page, signal);
+          setCharacters((prevData) => (page === 1 ? data.changeResponse : [...prevData, ...data.changeResponse]));
+          setHasMore(data.info.next !== null);
+          loadedPageRef.current = page;
+          break;
+        } catch (error) {
+          attempts++;
+          if (attempts > maxAttempts) {
+            if (axios.isAxiosError(error)) {
+              if (error.response?.status === 404) {
+                return setCharacters([]);
+              } else {
+                toast.error(`Error loading data ${error.message}`);
+              }
+            }
           }
+
+          await new Promise((resolve) => {
+            setTimeout(resolve, FETCH_DELAY);
+          });
         }
-      } finally {
-        setIsLoading(false);
       }
+      setIsLoading(false);
     };
     load(abortController.signal);
 
@@ -83,5 +70,5 @@ export const useCharacterList = (filters: TFilters) => {
     };
   }, [filters, page]);
 
-  return { characters, isLoading };
+  return { characters, isLoading, hasMore, handleNextPage };
 };

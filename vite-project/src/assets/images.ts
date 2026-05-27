@@ -1,12 +1,11 @@
 import LightImg from '@/assets/images/Light.png';
-import LoadingImg from '@/assets/images/loading.png';
+import LoadingImg from '@/assets/images/loading.webp';
 import LogoImg from '@/assets/images/logo.png';
-import RickImg from '@/assets/images/Rick.png';
 import RuImg from '@/assets/images/Ru.png';
 
 import ArrowImg from './images/arrow.png';
 import BlackLogoImg from './images/blackLogo.png';
 import NotFoundImg from './images/notFound.png';
-import TitleImg from './images/title.png';
+import TitleImg from './images/title.avif';
 
-export { ArrowImg, BlackLogoImg, LightImg, LoadingImg, LogoImg, NotFoundImg, RickImg, RuImg, TitleImg };
+export { ArrowImg, BlackLogoImg, LightImg, LoadingImg, LogoImg, NotFoundImg, RuImg, TitleImg };

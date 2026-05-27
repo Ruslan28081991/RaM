@@ -46,9 +46,9 @@ export const CharacterCard = React.memo(({ id, image, name, gender, species, loc
   };
 
   const handleEditCancel = () => {
-    if (!trimmedName || !trimmerLocation) return notify();
     setCharacterName(name);
     setCharacterLocation(location.name);
+    setCharacterStatus(status);
     setIsEdit(false);
   };
 
