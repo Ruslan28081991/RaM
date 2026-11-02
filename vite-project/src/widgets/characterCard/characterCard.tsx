@@ -46,9 +46,9 @@ export const CharacterCard = React.memo(({ id, image, name, gender, species, loc
   };
 
   const handleEditCancel = () => {
-    setCharacterName(name);
-    setCharacterLocation(location.name);
-    setCharacterStatus(status);
+    setCharacterName(characterName);
+    setCharacterLocation(characterLocation);
+    setCharacterStatus(characterStatus);
     setIsEdit(false);
   };
 
