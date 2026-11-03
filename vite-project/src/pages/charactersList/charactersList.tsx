@@ -1,27 +1,33 @@
 import { useMemo } from 'react';
 
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { TitleImg } from '@/assets/images';
 import { useCharacterList } from '@/hooks';
 import { Container, InfinityScroll, Loading } from '@/shared/components';
+import { filtersStore } from '@/stores/store';
 import { CharacterCard, PanelFilters } from '@/widgets';
 
 import './charactersList.css';
 
 export const CharactersList = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const filtersName = filtersStore((state) => state.filters.name);
+  const filtersGender = filtersStore((state) => state.filters.gender);
+  const filtersSpecies = filtersStore((state) => state.filters.species);
+  const filtersStatus = filtersStore((state) => state.filters.status);
+
   const filters = useMemo(
     () => ({
-      name: searchParams.get('name') || '',
-      species: searchParams.get('species') || '',
-      gender: searchParams.get('gender') || '',
-      status: searchParams.get('status') || '',
+      name: filtersName || '',
+      species: filtersSpecies || '',
+      gender: filtersGender || '',
+      status: filtersStatus || '',
     }),
-    [searchParams]
+
+    [filtersName, filtersSpecies, filtersGender, filtersStatus]
   );
+
   const { characters, isLoading, hasMore, handleNextPage } = useCharacterList(filters);
-  const charactersMemo = useMemo(() => characters, [characters]);
 
   return (
     <Container>
@@ -33,11 +39,7 @@ export const CharactersList = () => {
             alt="Title 'Rick & Morty'"
           />
         </Link>
-        <PanelFilters
-          filters={filters}
-          changeFilters={setSearchParams}
-          searchParams={searchParams}
-        />
+        <PanelFilters filters={filters} />
         {isLoading && characters.length === 0 && (
           <Loading
             size="large"
@@ -50,7 +52,7 @@ export const CharactersList = () => {
 
         {characters.length > 0 && (
           <ul className="charactersList__container">
-            {charactersMemo.map((character) => (
+            {characters.map((character) => (
               <li
                 className="charactersList__item"
                 key={character.id}
