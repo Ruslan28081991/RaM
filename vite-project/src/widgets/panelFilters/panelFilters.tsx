@@ -4,13 +4,17 @@ import { SearchIcon } from '@/assets/icons';
 import { useDebounce } from '@/hooks';
 import { Input, Select } from '@/shared/components';
 import { GENDER_OPTIONS, SPECIES_OPTIONS, STATUS_OPTIONS, TIMER_DEBOUNCE } from '@/shared/constants';
-import type { IPanelFilters } from '@/shared/types';
 import { filtersStore } from '@/stores/store';
 
 import './panelFilters.css';
 
-export const PanelFilters = ({ filters }: IPanelFilters) => {
-  const [name, setName] = useState(filters.name);
+export const PanelFilters = () => {
+  const filtersName = filtersStore((state) => state.filters.name);
+  const filtersSpecies = filtersStore((state) => state.filters.species);
+  const filtersGender = filtersStore((state) => state.filters.gender);
+  const filtersStatus = filtersStore((state) => state.filters.status);
+
+  const [name, setName] = useState(filtersName);
   const setFilters = filtersStore((state) => state.setFilters);
   const debaucedName = useDebounce(name, TIMER_DEBOUNCE);
 
@@ -31,19 +35,19 @@ export const PanelFilters = ({ filters }: IPanelFilters) => {
       <Select
         placeholder="Species"
         options={SPECIES_OPTIONS}
-        value={filters.species}
+        value={filtersSpecies}
         onChange={(value) => setFilters('species', value)}
       />
       <Select
         placeholder="Gender"
         options={GENDER_OPTIONS}
-        value={filters.gender}
+        value={filtersGender}
         onChange={(value) => setFilters('gender', value)}
       />
       <Select
         placeholder="Status"
         options={STATUS_OPTIONS}
-        value={filters.status}
+        value={filtersStatus}
         onChange={(value) => setFilters('status', value)}
       />
     </div>

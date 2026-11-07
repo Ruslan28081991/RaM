@@ -1,33 +1,14 @@
-import { useMemo } from 'react';
-
 import { Link } from 'react-router-dom';
 
 import { TitleImg } from '@/assets/images';
 import { useCharacterList } from '@/hooks';
 import { Container, InfinityScroll, Loading } from '@/shared/components';
-import { filtersStore } from '@/stores/store';
 import { CharacterCard, PanelFilters } from '@/widgets';
 
 import './charactersList.css';
 
 export const CharactersList = () => {
-  const filtersName = filtersStore((state) => state.filters.name);
-  const filtersGender = filtersStore((state) => state.filters.gender);
-  const filtersSpecies = filtersStore((state) => state.filters.species);
-  const filtersStatus = filtersStore((state) => state.filters.status);
-
-  const filters = useMemo(
-    () => ({
-      name: filtersName || '',
-      species: filtersSpecies || '',
-      gender: filtersGender || '',
-      status: filtersStatus || '',
-    }),
-
-    [filtersName, filtersSpecies, filtersGender, filtersStatus]
-  );
-
-  const { characters, isLoading, hasMore, handleNextPage } = useCharacterList(filters);
+  const { characters, isLoading, hasMore, handleNextPage } = useCharacterList();
 
   return (
     <Container>
@@ -39,7 +20,7 @@ export const CharactersList = () => {
             alt="Title 'Rick & Morty'"
           />
         </Link>
-        <PanelFilters filters={filters} />
+        <PanelFilters />
         {isLoading && characters.length === 0 && (
           <Loading
             size="large"
