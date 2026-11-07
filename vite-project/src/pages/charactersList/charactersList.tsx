@@ -1,6 +1,4 @@
-import { useMemo } from 'react';
-
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { TitleImg } from '@/assets/images';
 import { useCharacterList } from '@/hooks';
@@ -10,18 +8,7 @@ import { CharacterCard, PanelFilters } from '@/widgets';
 import './charactersList.css';
 
 export const CharactersList = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const filters = useMemo(
-    () => ({
-      name: searchParams.get('name') || '',
-      species: searchParams.get('species') || '',
-      gender: searchParams.get('gender') || '',
-      status: searchParams.get('status') || '',
-    }),
-    [searchParams]
-  );
-  const { characters, isLoading, hasMore, handleNextPage } = useCharacterList(filters);
-  const charactersMemo = useMemo(() => characters, [characters]);
+  const { characters, isLoading, hasMore, handleNextPage } = useCharacterList();
 
   return (
     <Container>
@@ -33,11 +20,7 @@ export const CharactersList = () => {
             alt="Title 'Rick & Morty'"
           />
         </Link>
-        <PanelFilters
-          filters={filters}
-          changeFilters={setSearchParams}
-          searchParams={searchParams}
-        />
+        <PanelFilters />
         {isLoading && characters.length === 0 && (
           <Loading
             size="large"
@@ -50,7 +33,7 @@ export const CharactersList = () => {
 
         {characters.length > 0 && (
           <ul className="charactersList__container">
-            {charactersMemo.map((character) => (
+            {characters.map((character) => (
               <li
                 className="charactersList__item"
                 key={character.id}

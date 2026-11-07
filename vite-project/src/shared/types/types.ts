@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 
+import type { IFiltersStore } from './interfaces';
+
 export type TFilters = {
   name: string;
   species: string;
@@ -19,3 +21,5 @@ export type TProps = {
 export type TState = {
   hasError: boolean;
 };
+
+export type TFiltersKey = keyof IFiltersStore['filters'];

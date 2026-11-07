@@ -1,43 +1,25 @@
 import { useEffect, useState } from 'react';
 
-import type { SetURLSearchParams } from 'react-router-dom';
-
 import { SearchIcon } from '@/assets/icons';
 import { useDebounce } from '@/hooks';
 import { Input, Select } from '@/shared/components';
 import { GENDER_OPTIONS, SPECIES_OPTIONS, STATUS_OPTIONS, TIMER_DEBOUNCE } from '@/shared/constants';
+import { filtersStore } from '@/stores/store';
 
 import './panelFilters.css';
 
-export interface IPanelFilters {
-  filters: {
-    name: string;
-    species: string;
-    gender: string;
-    status: string;
-  };
-  changeFilters: SetURLSearchParams;
-  searchParams: URLSearchParams;
-}
+export const PanelFilters = () => {
+  const filtersName = filtersStore((state) => state.filters.name);
+  const filtersSpecies = filtersStore((state) => state.filters.species);
+  const filtersGender = filtersStore((state) => state.filters.gender);
+  const filtersStatus = filtersStore((state) => state.filters.status);
 
-export const PanelFilters = ({ filters, changeFilters, searchParams }: IPanelFilters) => {
-  const [name, setName] = useState(filters.name);
-
-  const handleFilterChange = (key: string, value: string) => {
-    const copyParams = new URLSearchParams(searchParams);
-    if (value) {
-      copyParams.set(key, value);
-    } else {
-      copyParams.delete(key);
-    }
-
-    changeFilters(copyParams);
-  };
-
+  const [name, setName] = useState(filtersName);
+  const setFilters = filtersStore((state) => state.setFilters);
   const debaucedName = useDebounce(name, TIMER_DEBOUNCE);
 
   useEffect(() => {
-    handleFilterChange('name', debaucedName);
+    setFilters('name', debaucedName);
   }, [debaucedName]);
 
   return (
@@ -53,22 +35,21 @@ export const PanelFilters = ({ filters, changeFilters, searchParams }: IPanelFil
       <Select
         placeholder="Species"
         options={SPECIES_OPTIONS}
-        value={filters.species}
-        onChange={(value) => handleFilterChange('species', value)}
+        value={filtersSpecies}
+        onChange={(value) => setFilters('species', value)}
       />
       <Select
         placeholder="Gender"
         options={GENDER_OPTIONS}
-        value={filters.gender}
-        onChange={(value) => handleFilterChange('gender', value)}
+        value={filtersGender}
+        onChange={(value) => setFilters('gender', value)}
       />
       <Select
         placeholder="Status"
         options={STATUS_OPTIONS}
-        value={filters.status}
-        onChange={(value) => handleFilterChange('status', value)}
+        value={filtersStatus}
+        onChange={(value) => setFilters('status', value)}
       />
-      {/* {isPending && <div>Loading...</div>} */}
     </div>
   );
 };

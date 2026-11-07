@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import toast from 'react-hot-toast';
 
@@ -6,15 +6,31 @@ import axios from 'axios';
 
 import { getCharactersListAPI } from '@/api';
 import { FETCH_DELAY } from '@/shared/constants';
-import type { TFilters } from '@/shared/types';
+import { filtersStore } from '@/stores/store';
 import type { ICharacterCard } from '@/widgets';
 
-export const useCharacterList = (filters: TFilters) => {
+export const useCharacterList = () => {
   const [characters, setCharacters] = useState<ICharacterCard[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const loadedPageRef = useRef(0);
+
+  const filtersName = filtersStore((state) => state.filters.name);
+  const filtersGender = filtersStore((state) => state.filters.gender);
+  const filtersSpecies = filtersStore((state) => state.filters.species);
+  const filtersStatus = filtersStore((state) => state.filters.status);
+
+  const filters = useMemo(
+    () => ({
+      name: filtersName || '',
+      species: filtersSpecies || '',
+      gender: filtersGender || '',
+      status: filtersStatus || '',
+    }),
+
+    [filtersName, filtersSpecies, filtersGender, filtersStatus]
+  );
 
   const handleNextPage = () => {
     if (page === loadedPageRef.current) {
