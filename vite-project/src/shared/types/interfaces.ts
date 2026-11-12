@@ -1,3 +1,4 @@
+import type { TStatus } from '../components';
 import type { TFiltersKey } from './types';
 
 export interface ICharacter {
@@ -13,6 +14,18 @@ export interface ICharacter {
   location: {
     name: string;
   };
+}
+
+export interface ICharacterCard {
+  id: number;
+  image: string;
+  name: string;
+  gender: string;
+  species: string;
+  location: {
+    name: string;
+  };
+  status: TStatus;
 }
 
 export interface IFiltersStore {
