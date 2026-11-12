@@ -1,21 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo } from 'react';
 
-import toast from 'react-hot-toast';
-
-import axios from 'axios';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { getCharactersListAPI } from '@/api';
-import { FETCH_DELAY } from '@/shared/constants';
 import { filtersStore } from '@/stores/store';
-import type { ICharacterCard } from '@/widgets';
-
 export const useCharacterList = () => {
-  const [characters, setCharacters] = useState<ICharacterCard[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
-  const loadedPageRef = useRef(0);
-
   const filtersName = filtersStore((state) => state.filters.name);
   const filtersGender = filtersStore((state) => state.filters.gender);
   const filtersSpecies = filtersStore((state) => state.filters.species);
@@ -32,59 +21,22 @@ export const useCharacterList = () => {
     [filtersName, filtersSpecies, filtersGender, filtersStatus]
   );
 
-  const handleNextPage = () => {
-    if (page === loadedPageRef.current) {
-      setPage((prev) => prev + 1);
-    }
-  };
+  const { data, isLoading, isError, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
+    queryKey: ['characters', filters],
+    initialPageParam: 1,
+    queryFn: async ({ pageParam, signal }) => {
+      const response = await getCharactersListAPI.getCharacters(filters, pageParam, signal);
 
-  useEffect(() => {
-    setPage(1);
-    loadedPageRef.current = 0;
-    setCharacters([]);
-    setHasMore(true);
-  }, [filters]);
+      return response;
+    },
+    getNextPageParam: (lastPage, _allPages, lastPageParam) => {
+      return lastPage.info.next === null ? undefined : lastPageParam + 1;
+    },
+    retry: 5,
+    retryDelay: 3000,
+  });
 
-  useEffect(() => {
-    let attempts = 0;
-    const maxAttempts = 10;
+  const characters = data?.pages.flatMap((item) => item.changeResponse) ?? [];
 
-    const abortController = new AbortController();
-
-    const load = async (signal: AbortSignal) => {
-      while (attempts < maxAttempts) {
-        try {
-          setIsLoading(true);
-          const data = await getCharactersListAPI.getCharacters(filters, page, signal);
-          setCharacters((prevData) => (page === 1 ? data.changeResponse : [...prevData, ...data.changeResponse]));
-          setHasMore(data.info.next !== null);
-          loadedPageRef.current = page;
-          break;
-        } catch (error) {
-          attempts++;
-          if (attempts > maxAttempts) {
-            if (axios.isAxiosError(error)) {
-              if (error.response?.status === 404) {
-                return setCharacters([]);
-              } else {
-                toast.error(`Error loading data ${error.message}`);
-              }
-            }
-          }
-
-          await new Promise((resolve) => {
-            setTimeout(resolve, FETCH_DELAY);
-          });
-        }
-      }
-      setIsLoading(false);
-    };
-    load(abortController.signal);
-
-    return () => {
-      abortController.abort();
-    };
-  }, [filters, page]);
-
-  return { characters, isLoading, hasMore, handleNextPage };
+  return { characters, isLoading, isError, error, hasNextPage, fetchNextPage, isFetchingNextPage };
 };
