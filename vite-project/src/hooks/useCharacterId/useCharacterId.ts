@@ -5,10 +5,7 @@ import { getCharactersListAPI } from '@/api';
 export const useCharacterId = (id: string) => {
   const { data, isError, isLoading } = useQuery({
     queryKey: ['character', id],
-    queryFn: async () => {
-      const data = await getCharactersListAPI.getCharacterId(id);
-      return data;
-    },
+    queryFn: () => getCharactersListAPI.getCharacterId(id),
     select: (data) => data.info,
   });
 

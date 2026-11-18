@@ -24,10 +24,7 @@ export const useCharacterList = () => {
   const { data, isLoading, isError, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['characters', filters],
     initialPageParam: 1,
-    queryFn: ({ pageParam, signal }) => {
-      const response = getCharactersListAPI.getCharacters(filters, pageParam, signal);
-      return response;
-    },
+    queryFn: ({ pageParam, signal }) => getCharactersListAPI.getCharacters(filters, pageParam, signal),
     getNextPageParam: (lastPage, _allPages, lastPageParam) => {
       return lastPage.info.next === null ? undefined : lastPageParam + 1;
     },
