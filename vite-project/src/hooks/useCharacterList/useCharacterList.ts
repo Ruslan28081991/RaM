@@ -24,19 +24,17 @@ export const useCharacterList = () => {
   const { data, isLoading, isError, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['characters', filters],
     initialPageParam: 1,
-    queryFn: async ({ pageParam, signal }) => {
-      const response = await getCharactersListAPI.getCharacters(filters, pageParam, signal);
-
+    queryFn: ({ pageParam, signal }) => {
+      const response = getCharactersListAPI.getCharacters(filters, pageParam, signal);
       return response;
     },
     getNextPageParam: (lastPage, _allPages, lastPageParam) => {
       return lastPage.info.next === null ? undefined : lastPageParam + 1;
     },
-    retry: 5,
-    retryDelay: 3000,
+    select: (data) => data?.pages.flatMap((item) => item.changeResponse),
   });
 
-  const characters = data?.pages.flatMap((item) => item.changeResponse) ?? [];
+  const characters = data ?? [];
 
   return { characters, isLoading, isError, error, hasNextPage, fetchNextPage, isFetchingNextPage };
 };

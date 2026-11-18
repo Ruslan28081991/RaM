@@ -8,7 +8,7 @@ import './characterInfo.css';
 
 export const CharacterInfo = () => {
   const { id } = useParams();
-  const { character, isError } = useCharacterId(id!);
+  const { character, isError, isLoading } = useCharacterId(id!);
 
   if (isError) return <Navigate to="/404" />;
 
@@ -26,7 +26,7 @@ export const CharacterInfo = () => {
         GO BACK
       </Link>
       <section className="characterInfo">
-        {character !== null ? (
+        {character && (
           <div className="characterInfo__content">
             <img
               className="characterInfo__image"
@@ -55,7 +55,8 @@ export const CharacterInfo = () => {
               <dd className="characterInfo__item-text">{character?.location.name}</dd>
             </dl>
           </div>
-        ) : (
+        )}
+        {isLoading && (
           <Loading
             size="large"
             text="Loading character card..."
