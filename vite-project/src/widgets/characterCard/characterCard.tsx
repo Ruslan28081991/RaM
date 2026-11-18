@@ -7,24 +7,13 @@ import cn from 'classnames';
 
 import { CloseIcon, ConfirmIcon, EditIcon } from '@/assets/icons';
 import { type TStatus } from '@/shared/components';
+import type { ICharacterCard } from '@/shared/types';
 
 import { CharacterCardLocation } from './characterCardLocation';
 import { CharacterCardName } from './characterCardName';
 import { CharacterCardStatus } from './characterCardStatus';
 
 import './characterCard.css';
-
-export interface ICharacterCard {
-  id: number;
-  image: string;
-  name: string;
-  gender: string;
-  species: string;
-  location: {
-    name: string;
-  };
-  status: TStatus;
-}
 
 export const CharacterCard = React.memo(({ id, image, name, gender, species, location, status }: ICharacterCard) => {
   const [isEdit, setIsEdit] = useState(false);

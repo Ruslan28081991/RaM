@@ -8,7 +8,7 @@ import { CharacterCard, PanelFilters } from '@/widgets';
 import './charactersList.css';
 
 export const CharactersList = () => {
-  const { characters, isLoading, hasMore, handleNextPage } = useCharacterList();
+  const { characters, isLoading, isError, error, hasNextPage, fetchNextPage, isFetchingNextPage } = useCharacterList();
 
   return (
     <Container>
@@ -27,9 +27,10 @@ export const CharactersList = () => {
             text="Loading characters..."
           />
         )}
-        {!isLoading && characters.length === 0 && (
+        {!isLoading && !isError && characters.length === 0 && (
           <p className="charactersList__text-empty">Characters list is empty...</p>
         )}
+        {isError && <p className="charactersList__text-error">Error loading data: {error?.message}</p>}
 
         {characters.length > 0 && (
           <ul className="charactersList__container">
@@ -54,9 +55,9 @@ export const CharactersList = () => {
         {characters.length > 0 && (
           <InfinityScroll
             loader={<Loading size="small" />}
-            isLoadingMore={isLoading}
-            isHasMore={hasMore}
-            onLoadMore={handleNextPage}
+            isLoadingMore={isFetchingNextPage}
+            isHasMore={hasNextPage}
+            onLoadMore={fetchNextPage}
           />
         )}
       </div>

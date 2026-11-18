@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 import { BASE_URL } from '@/shared/constants';
+import type { ICharacterCard } from '@/shared/types';
 import type { TFilters } from '@/shared/types/types';
-import type { ICharacterCard } from '@/widgets';
 
 export const getCharactersListAPI = {
   getCharacters: async (filters: TFilters, page: number, signal?: AbortSignal) => {

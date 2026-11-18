@@ -13,7 +13,8 @@
   margin-top: 20px;
 }
 
-.charactersList__text-empty {
+.charactersList__text-empty,
+.charactersList__text-error {
   flex-grow: 1;
   align-content: center;
   font-size: 18px;
